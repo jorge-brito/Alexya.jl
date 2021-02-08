@@ -17,18 +17,18 @@ for N in 1:3
     @eval function onmousepress!(callback::Function, ::Type{Mouse{$N}}, canvas::AlCanvas)
         setfield!(canvas.widget.mouse, Symbol("button$($N)press"), @protected(callback))
     end
-    @doc """
-            function onmousepress!(callback::Function, ::Type{Mouse{$($N)}})
+    """
+            onmousepress!(callback::Function, ::Type{Mouse{N}})
 
-    Sets the `onmousepress` event callback for the mouse button `$($N)`
+    Sets the `onmousepress` event callback for the mouse button `N`
     """
     @eval function onmousepress!(callback::Function, ::Type{Mouse{$N}})
         onmousepress!(callback, Mouse{$N}, get_current_canvas())
     end
-    @doc """
-            function onmouserelease!(callback::Function, ::Type{Mouse{$($N)}}, canvas::AlCanvas)
+    """
+            onmouserelease!(callback::Function, ::Type{Mouse{N}}, canvas::AlCanvas)
 
-    Sets the `onmouserelease` event callback for the mouse button `$($N)`
+    Sets the `onmouserelease` event callback for the mouse button `N`
     """
     @eval function onmouserelease!(callback::Function, ::Type{Mouse{$N}}, canvas::AlCanvas)
         setfield!(canvas.widget.mouse, Symbol("button$($N)release"), @protected(callback))
@@ -39,7 +39,7 @@ for N in 1:3
     end
 end
 """
-        function onmousemotion!(callback::Function, canvas::AlCanvas)
+        onmousemotion!(callback::Function, canvas::AlCanvas)
 
 Sets the `onmousemotion` event callback.
 """
@@ -51,7 +51,7 @@ function onmousemotion!(callback::Function)
     onmousemotion!(callback, get_current_canvas())
 end
 """
-        function onkeypress!(callback::Function, win::Gtk.GtkWindow)
+        onkeypress!(callback::Function, win::Gtk.GtkWindow)
 
 Sets the `onkeypress` event callback.
 """
@@ -63,7 +63,7 @@ function onkeypress!(callback::Function)
     onkeypress!(callback, get_current_window())
 end
 """
-        function onkeyrelease!(callback::Function, win::Gtk.GtkWindow)
+        onkeyrelease!(callback::Function, win::Gtk.GtkWindow)
 
 Sets the `onkeyrelease` event callback.
 """
