@@ -1,6 +1,6 @@
 function _precompile_()
     ccall(:jl_generating_output, Cint, ()) == 1 || return nothing
-    isdefined(Alexya, Symbol("@widget")) && precompile(Tuple{getfield(Alexya, Symbol("@widget")), Expr})
+    isdefined(Alexya, Symbol("@widget")) && precompile(Tuple{getfield(Alexya, Symbol("#@widget")), LineNumberNode, Module, Any})
     for T in Any[
         Alexya.Canvas             ,
         Alexya.ComboBoxText       ,
