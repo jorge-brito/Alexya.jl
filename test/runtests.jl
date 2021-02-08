@@ -1,18 +1,11 @@
-using Alexya
-using Test
+using Test, Alexya
 
-@testset "Layout overlay" begin
-    
-createCanvas(800, 600, Layout{:overlay})
-
-draw!() do w, h
-    @test w == 800
-    @test h == 600
-    noloop!()
+@testset "Examples" begin
+    include("../examples/basic.jl")
+    include("../examples/wave.jl")
+    include("../examples/fractal-tree.jl")
+    include("../examples/raycasting.jl")
 end
 
-loop!()
-
-end
 
 # TODO: Write more tests
