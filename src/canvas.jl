@@ -150,19 +150,3 @@ end
 macro height()
     esc(:( height() ))
 end
-
-export AlCanvas     ,
-       convert      ,
-       loop!        ,
-       noloop!      ,
-       framerate!   ,
-       draw!        ,
-       setup!       ,
-       add          ,
-       width        ,
-       height       ,
-       @width       ,
-       @height      ,
-       @add         ,
-       createCanvas ,
-       CURRENT_APP

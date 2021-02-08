@@ -63,5 +63,3 @@ function key(keyname::Union{AbstractString, Symbol})
         Base.show_backtrace(stderr, catch_backtrace())
     end
 end
-
-export Mouse, onmousepress!, onmouserelease!, onkeypress!, onkeyrelease!, key, onmousemotion!

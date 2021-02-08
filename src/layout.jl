@@ -32,6 +32,3 @@ function layout_rule(::Type{Layout{:splitv, N}}, canvas::Gtk.GtkCanvas) where {N
     body = Paned([canvas, container], :v; position = N)
     return body, container 
 end
-
-export layout_rule,
-       Layout     

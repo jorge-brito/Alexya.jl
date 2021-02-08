@@ -1,22 +1,17 @@
-module Widgets
-include("utils.jl")
-
-using Gtk, MacroTools
-
 const AbstractStringLike = Union{AbstractString, Symbol}
 
 const Children = Union{Gtk.GtkWidget, AbstractStringLike, AbstractArray, Tuple, Function}
 
 function on(handler::Function, type::AbstractStringLike, w::Gtk.GtkWidget)
-    signal_connect(handler, w, type)
+    Gtk.signal_connect(handler, w, type)
 end
 
 function off(w::Gtk.GtkWidget, id::UInt64)
-    signal_handler_disconnect(w, id)
+    Gtk.signal_handler_disconnect(w, id)
 end
 
 function set!(w::Gtk.GtkWidget, name::AbstractStringLike, value::T) where {T}
-    set_gtk_property!(w, dashcase(name), value)
+    Gtk.set_gtk_property!(w, dashcase(name), value)
 end
 
 function set!(w::Gtk.GtkWidget, name::AbstractStringLike, value::Dict)
@@ -45,11 +40,11 @@ function set!(w::Gtk.GtkWidget; props...)
 end
 
 function getprop(w::Gtk.GtkWidget, prop::AbstractStringLike)
-    get_gtk_property(w, prop)
+    Gtk.get_gtk_property(w, prop)
 end
 
 function getprop(w::Gtk.GtkWidget, prop::AbstractStringLike, ::Type{T}) where {T}
-    get_gtk_property(w, prop, T)
+    Gtk.get_gtk_property(w, prop, T)
 end
 
 function widget(w::Gtk.GtkWidget; props...)
@@ -64,7 +59,7 @@ function widget(w::Gtk.GtkWidget, children::Tuple; props...)
 
     if !ismissing(children)
         for child in filter(!ismissing, collect(children))
-            push!(w, child)
+            Gtk.push!(w, child)
         end
     end
 
@@ -107,62 +102,62 @@ macro widget(expr)
     end
 end
 
-@widget Canvas             <: GtkCanvas
-@widget ComboBoxText       <: GtkComboBoxText
-@widget Alignment          <: GtkAlignment[]
-@widget AspectFrame        <: GtkAspectFrame[]
-@widget Button             <: GtkButton[]
-@widget CheckButton        <: GtkCheckButton[]
-@widget Expander           <: GtkExpander[]
-@widget EventBox           <: GtkEventBox[]
-@widget Frame              <: GtkFrame[]
-@widget LinkButton         <: GtkLinkButton[]
-@widget RadioButton        <: GtkRadioButton[]
-@widget ToggleButton       <: GtkToggleButton[]
-@widget VolumeButton       <: GtkVolumeButton[]
-@widget Window             <: GtkWindow[]
-@widget Dialog             <: GtkDialog[]
-@widget FileChooserDialog  <: GtkFileChooserDialog[]
-@widget Box                <: GtkBox[]
-@widget ButtonBox          <: GtkButtonBox[]
-@widget Statusbar          <: GtkStatusbar[]
-@widget Grid               <: GtkGrid[]
-@widget Layoutc           <: GtkLayout[]
-@widget Notebook           <: GtkNotebook[]
-@widget NullContainer      <: GtkNullContainer
-@widget Overlay            <: GtkOverlay[]
-@widget Paned              <: GtkPaned[]
-@widget RadioButtonGroup   <: GtkRadioButtonGroup[]
-@widget TableWidget        <: GtkTable[]
-@widget Entry              <: GtkEntry
-@widget Image              <: GtkImage
-@widget Label              <: GtkLabel
-@widget ProgressBar        <: GtkProgressBar
-@widget Scale              <: GtkScale
-@widget SpinButton         <: GtkSpinButton
-@widget Spinner            <: GtkSpinner
-@widget Switch             <: Gtk.GtkSwitch
-@widget TextView           <: GtkTextView
-@widget FileChooserNative  <: GtkFileChooserNative
+@widget Canvas             <: Gtk.GtkCanvas
+@widget ComboBoxText       <: Gtk.GtkComboBoxText
+@widget Alignment          <: Gtk.GtkAlignment[]
+@widget AspectFrame        <: Gtk.GtkAspectFrame[]
+@widget Button             <: Gtk.GtkButton[]
+@widget CheckButton        <: Gtk.GtkCheckButton[]
+@widget Expander           <: Gtk.GtkExpander[]
+@widget EventBox           <: Gtk.GtkEventBox[]
+@widget Frame              <: Gtk.GtkFrame[]
+@widget LinkButton         <: Gtk.GtkLinkButton[]
+@widget RadioButton        <: Gtk.GtkRadioButton[]
+@widget ToggleButton       <: Gtk.GtkToggleButton[]
+@widget VolumeButton       <: Gtk.GtkVolumeButton[]
+@widget Window             <: Gtk.GtkWindow[]
+@widget Dialog             <: Gtk.GtkDialog[]
+@widget FileChooserDialog  <: Gtk.GtkFileChooserDialog[]
+@widget Box                <: Gtk.GtkBox[]
+@widget ButtonBox          <: Gtk.GtkButtonBox[]
+@widget Statusbar          <: Gtk.GtkStatusbar[]
+@widget Grid               <: Gtk.GtkGrid[]
+@widget Layoutc            <: Gtk.GtkLayout[]
+@widget Notebook           <: Gtk.GtkNotebook[]
+@widget NullContainer      <: Gtk.GtkNullContainer
+@widget Overlay            <: Gtk.GtkOverlay[]
+@widget Paned              <: Gtk.GtkPaned[]
+@widget RadioButtonGroup   <: Gtk.GtkRadioButtonGroup[]
+@widget TableWidget        <: Gtk.GtkTable[]
+@widget Entry              <: Gtk.GtkEntry
+@widget Image              <: Gtk.GtkImage
+@widget Label              <: Gtk.GtkLabel
+@widget ProgressBar        <: Gtk.GtkProgressBar
+@widget Scale              <: Gtk.GtkScale
+@widget SpinButton         <: Gtk.GtkSpinButton
+@widget Spinner            <: Gtk.GtkSpinner
+@widget Switch             <: Gtk.Gtk.GtkSwitch
+@widget TextView           <: Gtk.GtkTextView
+@widget FileChooserNative  <: Gtk.GtkFileChooserNative
 
-function value(s::GtkScale)
-    GAccessor.value(GAccessor.adjustment(s))
+function value(s::Gtk.GtkScale)
+    Gtk.GAccessor.value(Gtk.GAccessor.adjustment(s))
 end
 
-function value!(s::GtkScale, v::Real)
-    set_gtk_property!(GAccessor.adjustment(s), :value, v)
+function value!(s::Gtk.GtkScale, v::Real)
+    Gtk.set_gtk_property!(Gtk.GAccessor.adjustment(s), :value, v)
 end
 
-function value(s::GtkEntry)
-    Gtk.bytestring(GAccessor.text(s))
+function value(s::Gtk.GtkEntry)
+    Gtk.bytestring(Gtk.GAccessor.text(s))
 end
 
-function value(s::Union{Gtk.GtkSwitch, GtkCheckButton, GtkRadioButton})
-    GAccessor.active(s)
+function value(s::Union{Gtk.GtkSwitch, Gtk.GtkCheckButton, Gtk.GtkRadioButton})
+    Gtk.GAccessor.active(s)
 end
 
-function value(s::GtkComboBoxText)
-    Gtk.bytestring(GAccessor.active(s))
+function value(s::Gtk.GtkComboBoxText)
+    Gtk.Gtk.bytestring(Gtk.GAccessor.active(s))
 end
 
 function Slider(r::AbstractRange; start = missing, props...)
@@ -170,55 +165,3 @@ function Slider(r::AbstractRange; start = missing, props...)
     start isa Real && value!(s, start)
     return s
 end
-
-export AbstractStringLike ,
-       Children           ,
-       set!               ,
-       getprop            ,
-       on                 ,
-       off                ,
-       @widget            ,
-       showall            ,
-       show               ,
-       value
-
-export Canvas             ,
-       ComboBoxText       ,
-       Alignment          ,
-       AspectFrame        ,
-       Button             ,
-       CheckButton        ,
-       EventBox           ,
-       Expander           ,
-       Frame              ,
-       LinkButton         ,
-       RadioButton        ,
-       ToggleButton       ,
-       VolumeButton       ,
-       Window             ,
-       Dialog             ,
-       FileChooserDialog  ,
-       Box                ,
-       ButtonBox          ,
-       Statusbar          ,
-       Grid               ,
-       Layoutc            ,
-       Notebook           ,
-       NullContainer      ,
-       Overlay            ,
-       Paned              ,
-       RadioButtonGroup   ,
-       TableWidget        ,
-       Entry              ,
-       Image              ,
-       Label              ,
-       ProgressBar        ,
-       Scale              ,
-       SpinButton         ,
-       Spinner            ,
-       Switch             ,
-       TextView           ,
-       FileChooserNative  ,
-       Slider
-
-end # module
