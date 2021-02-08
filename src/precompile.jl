@@ -1,45 +1,54 @@
 function _precompile_()
     ccall(:jl_generating_output, Cint, ()) == 1 || return nothing
-    isdefined(Alexya, Symbol("@widget")) && precompile(Tuple{getfield(Alexya, Symbol("#@widget")), LineNumberNode, Module, Any})
-    for T in Any[
-        Alexya.Canvas             ,
-        Alexya.ComboBoxText       ,
-        Alexya.Alignment          ,
-        Alexya.AspectFrame        ,
-        Alexya.Button             ,
-        Alexya.CheckButton        ,
-        Alexya.Expander           ,
-        Alexya.EventBox           ,
-        Alexya.Frame              ,
-        Alexya.LinkButton         ,
-        Alexya.RadioButton        ,
-        Alexya.ToggleButton       ,
-        Alexya.VolumeButton       ,
-        Alexya.Window             ,
-        Alexya.Dialog             ,
-        Alexya.FileChooserDialog  ,
-        Alexya.Box                ,
-        Alexya.ButtonBox          ,
-        Alexya.Statusbar          ,
-        Alexya.Grid               ,
-        Alexya.Layoutc            ,
-        Alexya.Notebook           ,
-        Alexya.NullContainer      ,
-        Alexya.Overlay            ,
-        Alexya.Paned              ,
-        Alexya.RadioButtonGroup   ,
-        Alexya.TableWidget        ,
-        Alexya.Entry              ,
-        Alexya.Image              ,
-        Alexya.Label              ,
-        Alexya.ProgressBar        ,
-        Alexya.Scale              ,
-        Alexya.SpinButton         ,
-        Alexya.Spinner            ,
-        Alexya.Switch             ,
-        Alexya.TextView           ,
-        Alexya.FileChooserNative  
-    ] 
-        precompile(Tuple{typeof(T)})
-    end
+    isdefined(Alexya, Symbol("##Scale#43")) && precompile(Tuple{Alexya.var"##Scale#43", Base.Iterators.Pairs{Symbol, Bool, Tuple{Symbol}, NamedTuple{(:hexpand,), Tuple{Bool}}}, typeof(Alexya.Scale), Bool, Int})
+    isdefined(Alexya, Symbol("##Window#25")) && precompile(Tuple{Alexya.var"##Window#25", Base.Iterators.Pairs{Union{}, Union{}, Tuple{}, NamedTuple{(), Tuple{}}}, typeof(Alexya.Window), Array{Gtk.GtkEventBoxLeaf, 1}, String, Int})
+    isdefined(Alexya, Symbol("##Window#25")) && precompile(Tuple{Alexya.var"##Window#25", Base.Iterators.Pairs{Union{}, Union{}, Tuple{}, NamedTuple{(), Tuple{}}}, typeof(Alexya.Window), Array{Gtk.GtkPanedLeaf, 1}, String, Int})
+    isdefined(Alexya, Symbol("##createCanvas#65")) && precompile(Tuple{Alexya.var"##createCanvas#65", String, typeof(Alexya.createCanvas), Int64, Int64, Type{Int}})
+    isdefined(Alexya, Symbol("#@add")) && precompile(Tuple{Alexya.var"#@add", LineNumberNode, Module, Int})
+    isdefined(Alexya, Symbol("#@margin")) && precompile(Tuple{Alexya.var"#@margin", LineNumberNode, Module, Int})
+    isdefined(Alexya, Symbol("#Box##kw")) && precompile(Tuple{Alexya.var"#Box##kw", NamedTuple{(:margin, :spacing), Tuple{Base.Dict{Symbol, Int64}, Int64}}, typeof(Alexya.Box), Array{Gtk.GtkWidget, 1}, Symbol})
+    isdefined(Alexya, Symbol("#Label##kw")) && precompile(Tuple{Alexya.var"#Label##kw", NamedTuple{(:margin,), Tuple{Base.Dict{Symbol, Int64}}}, typeof(Alexya.Label), String})
+    isdefined(Alexya, Symbol("#Slider##kw")) && precompile(Tuple{Alexya.var"#Slider##kw", NamedTuple{(:margin, :start), Tuple{Base.Dict{Symbol, Int64}, Int64}}, typeof(Alexya.Slider), Base.StepRangeLen{Float64, Base.TwicePrecision{Float64}, Base.TwicePrecision{Float64}}})
+    isdefined(Alexya, Symbol("#Slider##kw")) && precompile(Tuple{Alexya.var"#Slider##kw", NamedTuple{(:margin,), Tuple{Base.Dict{Symbol, Int64}}}, typeof(Alexya.Slider), Base.StepRangeLen{Float64, Base.TwicePrecision{Float64}, Base.TwicePrecision{Float64}}})
+    isdefined(Alexya, Symbol("#Slider##kw")) && precompile(Tuple{Alexya.var"#Slider##kw", NamedTuple{(:start, :hexpand), Tuple{Int64, Bool}}, typeof(Alexya.Slider), Base.UnitRange{Int64}})
+    isdefined(Alexya, Symbol("#Slider##kw")) && precompile(Tuple{Alexya.var"#Slider##kw", NamedTuple{(:start, :margin), Tuple{Float64, Base.Dict{Symbol, Int64}}}, typeof(Alexya.Slider), Base.StepRangeLen{Float64, Base.TwicePrecision{Float64}, Base.TwicePrecision{Float64}}})
+    isdefined(Alexya, Symbol("#createCanvas##kw")) && precompile(Tuple{Alexya.var"#createCanvas##kw", NamedTuple{(:title,), Tuple{String}}, typeof(Alexya.createCanvas), Int64, Int64, Type{Int}})
+    isdefined(Alexya, Symbol("#dict##kw")) && precompile(Tuple{Alexya.var"#dict##kw", NamedTuple{(:canvas, :window, :container), Tuple{Alexya.AlCanvas, Gtk.GtkWindowLeaf, Gtk.GtkBoxLeaf}}, typeof(Alexya.dict)})
+    isdefined(Alexya, Symbol("#widget##kw")) && precompile(Tuple{Alexya.var"#widget##kw", NamedTuple{(:margin, :spacing), Tuple{Base.Dict{Symbol, Int64}, Int64}}, typeof(Alexya.widget), Gtk.GtkBoxLeaf, Tuple{Gtk.GtkButtonLeaf, Gtk.GtkScaleLeaf}})
+    isdefined(Alexya, Symbol("#widget##kw")) && precompile(Tuple{Alexya.var"#widget##kw", NamedTuple{(:position,), Tuple{Int64}}, typeof(Alexya.widget), Gtk.GtkPanedLeaf, Tuple{Gtk.GtkCanvas, Gtk.GtkBoxLeaf}})
+    precompile(Tuple{typeof(Alexya.Window), Array{Gtk.GtkEventBoxLeaf, 1}, String, Int})
+    precompile(Tuple{typeof(Alexya.Window), Array{Gtk.GtkPanedLeaf, 1}, String, Int})
+    precompile(Tuple{typeof(Alexya.add), Gtk.GtkBoxLeaf})
+    precompile(Tuple{typeof(Alexya.add), Gtk.GtkLabelLeaf})
+    precompile(Tuple{typeof(Alexya.add), Gtk.GtkScaleLeaf})
+    precompile(Tuple{typeof(Alexya.createCanvas), Int64, Int64, Type{Int}})
+    precompile(Tuple{typeof(Alexya.createCanvas), Int64, Int64})
+    precompile(Tuple{typeof(Alexya.draw!), typeof(identity)})
+    precompile(Tuple{typeof(Alexya.layout_rule), Type{Alexya.Layout{:split, 600}}, Gtk.GtkCanvas})
+    precompile(Tuple{typeof(Alexya.layout_rule), Type{Alexya.Layout{:splitv, 520}}, Gtk.GtkCanvas})
+    precompile(Tuple{typeof(Alexya.layout_rule), Type{Alexya.Layout{:splitv, 540}}, Gtk.GtkCanvas})
+    precompile(Tuple{typeof(Alexya.loop!)})
+    precompile(Tuple{typeof(Alexya.margin), Int64, Int64})
+    precompile(Tuple{typeof(Alexya.on), typeof(identity), Symbol, Gtk.GtkWindowLeaf})
+    precompile(Tuple{typeof(Alexya.onmousemotion!), typeof(identity), Alexya.AlCanvas})
+    precompile(Tuple{typeof(Alexya.onmousemotion!), typeof(identity)})
+    precompile(Tuple{typeof(Alexya.onmousepress!), typeof(identity), Type{Alexya.Mouse{1}}, Alexya.AlCanvas})
+    precompile(Tuple{typeof(Alexya.onmousepress!), typeof(identity), Type{Alexya.Mouse{1}}})
+    precompile(Tuple{typeof(Alexya.onmouserelease!), typeof(identity), Type{Alexya.Mouse{1}}, Alexya.AlCanvas})
+    precompile(Tuple{typeof(Alexya.onmouserelease!), typeof(identity), Type{Alexya.Mouse{1}}})
+    precompile(Tuple{typeof(Alexya.point), Array{Float64, 1}})
+    precompile(Tuple{typeof(Alexya.point), Array{Int32, 1}})
+    precompile(Tuple{typeof(Alexya.point), Array{Int64, 1}})
+    precompile(Tuple{typeof(Alexya.set!), Gtk.GtkBoxLeaf, Symbol, Base.Dict{Symbol, Int64}})
+    precompile(Tuple{typeof(Alexya.set!), Gtk.GtkBoxLeaf, Symbol, Int64})
+    precompile(Tuple{typeof(Alexya.set!), Gtk.GtkButtonLeaf, Symbol, typeof(identity)})
+    precompile(Tuple{typeof(Alexya.setup!), typeof(identity), Alexya.AlCanvas})
+    precompile(Tuple{typeof(Alexya.setup!), typeof(identity)})
+    precompile(Tuple{typeof(Alexya.value), Gtk.GtkScaleLeaf})
+    precompile(Tuple{typeof(Alexya.widget), Gtk.GtkEventBoxLeaf, Tuple{Gtk.GtkOverlayLeaf}})
+    precompile(Tuple{typeof(Alexya.widget), Gtk.GtkOverlayLeaf, Tuple{Gtk.GtkCanvas, Gtk.GtkBoxLeaf}})
+    precompile(Tuple{typeof(Alexya.widget), Gtk.GtkWindowLeaf, Array{Gtk.GtkEventBoxLeaf, 1}})
+    precompile(Tuple{typeof(Alexya.widget), Gtk.GtkWindowLeaf, Array{Gtk.GtkPanedLeaf, 1}})
+    precompile(Tuple{typeof(Alexya.widget), Gtk.GtkWindowLeaf, Tuple{Gtk.GtkEventBoxLeaf}})
+    precompile(Tuple{typeof(Alexya.widget), Gtk.GtkWindowLeaf, Tuple{Gtk.GtkPanedLeaf}})
 end
