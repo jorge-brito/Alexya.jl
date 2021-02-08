@@ -1,4 +1,4 @@
-# Alexya
+# Alexya.jl
 
 > Note: this package is current in development.
 
