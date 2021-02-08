@@ -13,6 +13,11 @@ end
 
 Base.show(io::IO, alc::AlCanvas) = write(io, "AlCanvas(loop = $(alc.loop), draw = $(isdefined(alc, :draw)))\n")
 
+"""
+        loop!(alc::AlCanvas)
+
+Starts the drawing loop of the `alc` canvas.
+"""
 function loop!(alc::AlCanvas)
     @assert isdefined(alc, :draw) "Canvas must have a draw function."
 
@@ -50,26 +55,87 @@ function loop!(alc::AlCanvas)
     end
 end
 
+"""
+        noloop!(alc::AlCanvas)
+
+Stop the drawing loop of the `alc` canvas.
+"""
 function noloop!(alc::AlCanvas)
     alc.loop = false
 end
+"""
+        width(alc::AlCanvas)
 
+Gets the current `width` of the canvas `alc`.
+"""
 function width(alc::AlCanvas)
     Gtk.width(alc.widget)
 end
+"""
+        height(alc::AlCanvas)
 
+Gets the current `height` of the canvas `alc`.
+"""
 function height(alc::AlCanvas)
     Gtk.height(alc.widget)
 end
 
+"""
+        framerate!(alc::AlCanvas, fr::Real)
+
+Sets the framerate of the `alc` canvas to `fr`.
+"""
 function framerate!(alc::AlCanvas, fr::Real)
     alc.framerate = fr
 end
+"""
+        setup!(callback::Function, alc::AlCanvas)
 
+Sets the `setup` function of the `alc` canvas.
+
+The setup function runs before the loop starts.
+
+The `callback` function can accept 2 parameters `width` and `height`
+that correspond to the width and height of the canvas.
+
+# Example
+
+```julia
+canvas = AlCanvas(800, 600; title = "My Canvas")
+
+setup!(canvas) do width, height
+    println("Starting...")
+    @show width height
+end
+```
+"""
 function setup!(callback::Function, alc::AlCanvas)
     alc.setup = callback
 end
+"""
+        draw!(callback::Function, alc::AlCanvas)
 
+Sets the `draw` function of the `alc` canvas.
+
+The draw function runs every frame.
+
+The `callback` function can accept 2 parameters `width` and `height`
+that correspond to the width and height of the canvas.
+
+# Example
+
+```julia
+canvas = AlCanvas(800, 600; title = "My Canvas")
+
+draw!(canvas) do width, height
+    background("black")
+    origin()
+    radius = rand(0:200)
+    sethue("white")
+    circle(Point(0, 0), radius, :fill)
+end
+```
+"""
 function draw!(callback::Function, alc::AlCanvas)
     if hasmethod(callback, Tuple{Real, Real})
         alc.draw = callback
@@ -92,7 +158,12 @@ get_current_canvas()    = get(get_current_app(), :canvas    , missing)
 get_current_window()    = get(get_current_app(), :window    , missing)
 get_current_container() = get(get_current_app(), :container , missing)
 
-function createCanvas(width::Int = 400, height::Int = 400, layout = Layout{:overlay}; title = "My Canvas")
+"""
+        createCanvas(width::Int, height::Int [layout=Layout{:overlay},]; kwargs...)
+
+Create a new canvas.
+"""
+function createCanvas(width::Int, height::Int, layout = Layout{:overlay}; title = "My Canvas")
     canvas = AlCanvas()       
     body, container = layout_rule(layout, canvas.widget)
     window = Window([body], title, width, height)
@@ -135,6 +206,9 @@ function add(w::Gtk.GtkWidget)
     return w
 end
 
+"""
+Adds a widget to the current container.
+"""
 macro add(expr)
     if @capture(expr, name_ = w__)
         esc(:( $name = add($(first(w))) ))
@@ -143,10 +217,16 @@ macro add(expr)
     end
 end
 
+"""
+Returns the current canvas `width`.
+"""
 macro width()
     esc(:( width() ))
 end
 
+"""
+Returns the current canvas `height`.
+"""
 macro height()
     esc(:( height() ))
 end

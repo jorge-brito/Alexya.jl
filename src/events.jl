@@ -17,11 +17,19 @@ for N in 1:3
     @eval function onmousepress!(callback::Function, ::Type{Mouse{$N}}, canvas::AlCanvas)
         setfield!(canvas.widget.mouse, Symbol("button$($N)press"), @protected(callback))
     end
+    @doc """
+            function onmousepress!(callback::Function, ::Type{Mouse{$($N)}})
 
+    Sets the `onmousepress` event callback for the mouse button `$($N)`
+    """
     @eval function onmousepress!(callback::Function, ::Type{Mouse{$N}})
         onmousepress!(callback, Mouse{$N}, get_current_canvas())
     end
+    @doc """
+            function onmouserelease!(callback::Function, ::Type{Mouse{$($N)}}, canvas::AlCanvas)
 
+    Sets the `onmouserelease` event callback for the mouse button `$($N)`
+    """
     @eval function onmouserelease!(callback::Function, ::Type{Mouse{$N}}, canvas::AlCanvas)
         setfield!(canvas.widget.mouse, Symbol("button$($N)release"), @protected(callback))
     end
@@ -30,7 +38,11 @@ for N in 1:3
         onmouserelease!(callback, Mouse{$N}, get_current_canvas())
     end
 end
+"""
+        function onmousemotion!(callback::Function, canvas::AlCanvas)
 
+Sets the `onmousemotion` event callback.
+"""
 function onmousemotion!(callback::Function, canvas::AlCanvas)
     canvas.widget.mouse.motion = @protected(callback)
 end
@@ -38,7 +50,11 @@ end
 function onmousemotion!(callback::Function)
     onmousemotion!(callback, get_current_canvas())
 end
+"""
+        function onkeypress!(callback::Function, win::Gtk.GtkWindow)
 
+Sets the `onkeypress` event callback.
+"""
 function onkeypress!(callback::Function, win::Gtk.GtkWindow)
     on(@protected(callback), "key-press-event", win)
 end
@@ -46,7 +62,11 @@ end
 function onkeypress!(callback::Function)
     onkeypress!(callback, get_current_window())
 end
+"""
+        function onkeyrelease!(callback::Function, win::Gtk.GtkWindow)
 
+Sets the `onkeyrelease` event callback.
+"""
 function onkeyrelease!(callback::Function, win::Gtk.GtkWindow)
     on(@protected(callback), "key-release-event", win)
 end
@@ -54,7 +74,11 @@ end
 function onkeyrelease!(callback::Function)
     onkeyrelease!(callback, get_current_window())
 end
+"""
+        key(keyname::Union{AbstractString, Symbol})
 
+Returns the `Gtk` constant key of name `keyname`.
+"""
 function key(keyname::Union{AbstractString, Symbol})
     try
         getfield(Gtk.GConstants, Symbol("GDK_KEY_$keyname"))

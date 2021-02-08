@@ -2,14 +2,62 @@ const AbstractStringLike = Union{AbstractString, Symbol}
 
 const Children = Union{Gtk.GtkWidget, AbstractStringLike, AbstractArray, Tuple, Function}
 
+"""
+        on(handler::Function, type::AbstractStringLike, w::Gtk.GtkWidget)
+
+Connects a `handler` callback to the event `type` of the widget `w`.
+
+# Example
+
+```julia
+mybutton = Button("Foo")
+
+on(:clicked, mybutton) do w
+    println("My button was clicked!")
+end
+```
+"""
 function on(handler::Function, type::AbstractStringLike, w::Gtk.GtkWidget)
     Gtk.signal_connect(handler, w, type)
 end
+"""
+        off(w::Gtk.GtkWidget, id::UInt64)
 
+Disconnects the listener of id `id` of the widget `w`.
+
+# Example
+
+```julia
+mybutton = Button("Foo")
+
+id = on(:clicked, mybutton) do w
+    println("My button was clicked!")
+end
+
+# Disconnect the listeners after 5 seconds.
+@async begin
+    sleep(5)
+    off(mybutton, id)
+end
+```
+"""
 function off(w::Gtk.GtkWidget, id::UInt64)
     Gtk.signal_handler_disconnect(w, id)
 end
 
+"""
+        set!(w::Gtk.GtkWidget, name::AbstractStringLike, value::T) where {T}
+
+Sets the `Gtk` property `name` of the widget `w` to `value`.
+
+# Example
+
+```julia
+box = Box([foo, bar], :v)
+set!(box, "margin-top", 50)
+
+```
+"""
 function set!(w::Gtk.GtkWidget, name::AbstractStringLike, value::T) where {T}
     Gtk.set_gtk_property!(w, dashcase(name), value)
 end
@@ -38,7 +86,23 @@ function set!(w::Gtk.GtkWidget; props...)
         set!(w, name, prop)
     end
 end
+"""
+        getprop(w::Gtk.GtkWidget, prop::AbstractStringLike)
 
+Gets the `Gtk` property `prop` of the widget `w`.
+
+# Example
+
+```julia
+julia> begin
+    box = Box([foo, bar], :v)
+    set!(box, "margin-top", 50)
+end
+
+julia> getprop(box, "margin-top")
+50.0
+```
+"""
 function getprop(w::Gtk.GtkWidget, prop::AbstractStringLike)
     Gtk.get_gtk_property(w, prop)
 end
@@ -140,26 +204,55 @@ end
 @widget TextView           <: Gtk.GtkTextView
 @widget FileChooserNative  <: Gtk.GtkFileChooserNative
 
+"""
+        value(s::Gtk.GtkScale)
+
+Gets the value of a `GtkScale` widget (e.g, slider).
+"""
 function value(s::Gtk.GtkScale)
     Gtk.GAccessor.value(Gtk.GAccessor.adjustment(s))
 end
 
+"""
+        value!(s::GtkScale, v::Real)
+
+Sets the value of a `GtkScale` widget (e.g, slider) to `v`.
+"""
 function value!(s::Gtk.GtkScale, v::Real)
     Gtk.set_gtk_property!(Gtk.GAccessor.adjustment(s), :value, v)
 end
+"""
+        value(s::GtkEntry)
 
+Gets the value of a `GtkEntry` widget.
+"""
 function value(s::Gtk.GtkEntry)
     Gtk.bytestring(Gtk.GAccessor.text(s))
 end
+"""
+        value(s::Union{GtkSwitch, GtkCheckButton, GtkRadioButton})
 
+Gets the value of a `Gtk.GtkSwitch`, `Gtk.GtkCheckButton` or `GtkRadioButton` widget.
+"""
 function value(s::Union{Gtk.GtkSwitch, Gtk.GtkCheckButton, Gtk.GtkRadioButton})
     Gtk.GAccessor.active(s)
 end
+"""
+        value(s::GtkComboBoxText)
 
+Gets the value of a `GtkComboBoxText` widget.
+"""
 function value(s::Gtk.GtkComboBoxText)
     Gtk.Gtk.bytestring(Gtk.GAccessor.active(s))
 end
 
+"""
+        Slider(r::AbstractRange; [start = missing, ], props...)
+
+Creates a `slider` with range `r`, starting at `start`.
+
+If start is `missing`, the start value will be `first(r)`
+"""
 function Slider(r::AbstractRange; start = missing, props...)
     s = Scale(false, r; props...)
     start isa Real && value!(s, start)
