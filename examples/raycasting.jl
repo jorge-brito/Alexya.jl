@@ -41,12 +41,12 @@ end
 
 function draw(wall::Wall)
     sethue(wall.color)
-    line(Point(wall.a), Point(wall.b), :stroke)
+    line(point(wall.a), point(wall.b), :stroke)
 end
 
 function draw(p::Particle)
     sethue("white")
-    circle(Point(p.pos), 1, :fill)
+    circle(point(p.pos), 1, :fill)
 end
 
 function ⟶(ray::Ray, wall::Wall)
@@ -71,7 +71,7 @@ function ⟶(ray::Ray, wall::Wall)
 end
 
 function ⟶(p::Particle, walls::Vector{Wall})
-    pos = Point(p.pos)
+    pos = point(p.pos)
     for ray in p.rays
         closest = nothing
         record = Inf
@@ -133,7 +133,7 @@ draw!() do w, h
     particle ⟶ walls
 
     if drawing
-        line(Point(startpoint), Point(mouse), :stroke)
+        line(point(startpoint), point(mouse), :stroke)
     end
 
     global xoff += 0.01
