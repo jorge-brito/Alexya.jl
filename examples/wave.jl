@@ -1,4 +1,4 @@
-using Alexya, Alexya.Widgets
+using Alexya
 
 createCanvas(800, 600, Layout{:split, 600}; title = "Wave")
 

@@ -1,7 +1,7 @@
 # Example adapted from The Coding Train
 # https://youtu.be/0jjeOYMjmDU?list=PLRqwX-V7Uu6ZiZxtDDRCi6uhfTH4FilpH
 
-using Alexya, Alexya.Widgets
+using Alexya
 
 createCanvas(800, 600, Layout{:splitv, 520}) # create a Canvas
 

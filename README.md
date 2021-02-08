@@ -10,7 +10,7 @@
 # Example adapted from Luxor.jl documentation
 # https://juliagraphics.github.io/Luxor.jl/stable/polygons/#Offsetting-polygons
 
-using Alexya, Alexya.Widgets
+using Alexya
 
 createCanvas(800, 600) # create a Canvas
 
