@@ -14,7 +14,6 @@ include("layout.jl")
 include("canvas.jl")
 include("events.jl")
 
-
-export margin, @margin, map, Point
+export margin, @margin, ⟶, point
 
 end # module

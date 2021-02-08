@@ -69,10 +69,12 @@ macro margin(size)
     Expr(:kw, :margin, :( margin($size, $size) )) |> esc
 end
 
-function Base.map(s::T, a::AbstractRange, b::AbstractRange) where T <: Real
+function ⟶(s::Real, (a, b))
     a₁, a₂ = first(a), last(a)
     b₁, b₂ = first(b), last(b)
     b₁ + (s - a₁) * (b₂ - b₁) / (a₂ - a₁)
 end
 
-Point(v::T) where T <: Vector{<:Real} = Point(first(v), last(v))
+function point(v::Vector{<:Real})
+    Point(v[1], v[2])
+end
