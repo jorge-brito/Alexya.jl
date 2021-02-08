@@ -1,7 +1,7 @@
 # Example adapted from The Coding Train
 # https://youtu.be/TOEi6T2mtHo?list=PLRqwX-V7Uu6ZiZxtDDRCi6uhfTH4FilpH
 
-using Alexya, Alexya.Widgets
+using Alexya
 
 mutable struct Wall
     a::Vector{<:Real}
