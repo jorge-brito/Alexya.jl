@@ -1,12 +1,3 @@
-# Alexya
-
-> Note: this package is current in development.
-
-**Alexya** merges [Luxor.jl](https://github.com/JuliaGraphics/Luxor.jl) with [Gtk.jl](https://github.com/JuliaGraphics/Gtk.jl). Use this package to create interactive visualizations with luxor in a Gtk window.
-
-## Basic example
-
-```julia
 # Example adapted from Luxor.jl documentation
 # https://juliagraphics.github.io/Luxor.jl/stable/polygons/#Offsetting-polygons
 
@@ -43,10 +34,3 @@ draw!() do w, h
 end
 
 loop!() # Start the loop
-```
-
-Outputs:
-
-![Basic Example](example.gif)
-
-See the [examples](./examples) folder for more examples.
