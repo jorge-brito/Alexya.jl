@@ -13,6 +13,10 @@ Revise = "295af30f-e4ad-537b-8983-00126c2a3abe"
 
 [compat]
 MacroTools = "0.5"
+Reexport = "1.0"
+Colors = "0.12"
+Gtk = "1.1"
+Revise = "3.1"
 julia = "1"
 
 [extras]
