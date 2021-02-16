@@ -8,10 +8,10 @@ createCanvas(800, 600) # create a Canvas
 t = 0
 
 # @add macro adds the widget to the window
-@add velocity = Slider(1/10:1/100:1; @margin(20))
+@add velocity = Slider(1/10:1/100:1; @hexpand)
 
 # draw callback is called every frame
-draw!() do w, h
+function draw(w, h)
     background("#e1e1e1")
     origin()
 
@@ -33,4 +33,4 @@ draw!() do w, h
     end
 end
 
-loop!() # Start the loop
+loop!(draw) # Start the loop

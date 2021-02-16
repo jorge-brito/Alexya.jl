@@ -3,12 +3,13 @@
 
 using Alexya
 
-createCanvas(800, 600, Layout{:splitv, 520}) # create a Canvas
+uselayout(HPanels{200})
+createCanvas(800, 600) # create a Canvas
 
-@add slider = Slider(0:π/12:2π; start=π/4, @margin(20))
+@add slider = Slider(0:π/12:2π; start=π/4)
 φ = π/4
 
-draw!() do w, h
+function draw(w, h)
     global φ = value(slider)
 
     background("#515151")
@@ -34,4 +35,4 @@ function branch(len)
     end
 end
 
-loop!()
+loop!(draw)
