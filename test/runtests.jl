@@ -1,11 +1,7 @@
 using Test, Alexya
 
-@testset "Examples" begin
-    include("../examples/basic.jl")
-    include("../examples/wave.jl")
-    include("../examples/fractal-tree.jl")
-    include("../examples/raycasting.jl")
-end
-
+include("gtk.jl")
+include("canvas.jl")
+include("utils.jl")
 
 # TODO: Write more tests
