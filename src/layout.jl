@@ -1,34 +1,39 @@
-abstract type Layout{T, N} end
+abstract type Layout end
 
-function layout_rule(::Type{Layout{:overlay}}, canvas::Gtk.GtkCanvas)
-    container = Box((), :v)
-    body = EventBox() do 
-        Overlay([canvas, container])
-    end
-    # Propagate the event to the canvas
-    on("button-press-event", body) do w, event
-        Gtk.signal_emit(canvas, "button-press-event", Bool, event)
-    end
-    # Propagate the event to the canvas
-    on("button-release-event", body) do w, event
-        Gtk.signal_emit(canvas, "button-release-event", Bool, event)
-    end
-    # Propagate the event to the canvas
-    on("motion-notify-event", body) do w, event
-        Gtk.signal_emit(canvas, "motion-notify-event", Bool, event)
-    end
+function createLayout end
 
-    return body, container 
+mutable struct Panels{T, N} <: Layout
+    box::GtkContainer
+    panels::GtkPaned
+    empty::Bool
 end
 
-function layout_rule(::Type{Layout{:split, N}}, canvas::Gtk.GtkCanvas) where {N}
-    container = Box((), :v)
-    body = Paned([canvas, container], :h; position = N)
-    return body, container 
+const VPanels{N} = Panels{:v, N}
+const HPanels{N} = Panels{:h, N}
+
+function createLayout(::Type{Panels{T, N}}, canvas::GtkCanvas, win::GtkWindow) where {T, N}
+    box = Box(T == :v ? :h : :v; @margin(10), spacing = 10)
+    position = T == :h ? width(win) : height(win)
+    panels = Paned([canvas, box], T; position)
+    add!(win, panels)
+    return Panels{T, N}(box, panels, true)
 end
 
-function layout_rule(::Type{Layout{:splitv, N}}, canvas::Gtk.GtkCanvas) where {N}
-    container = Box((), :v)
-    body = Paned([canvas, container], :v; position = N)
-    return body, container 
+function add!(w::GtkWidget, layout::Panels{T, N}, win::GtkWindow) where {T, N}
+    if layout.empty
+        wd = width(win)
+        ht = height(win)
+        if T == :h
+            resize!(win, wd + N, ht)
+            position = wd
+        else
+            resize!(win, wd, ht + N)
+            position = ht
+        end
+        set!(layout.panels; position)
+        layout.empty = false
+    end
+
+    add!(layout.box, w)
+    return w;
 end

@@ -1,232 +1,221 @@
-mutable struct AlCanvas
-    widget::Gtk.GtkCanvas
+mutable struct DrawingApp
+    window::GtkWindow
+    canvas::GtkCanvas
     framerate::Real
-    loop::Bool
-    draw::Function
-    setup::Function
+    looping::Bool
+    DrawingApp(window, canvas; framerate = 60) = new(window, canvas, framerate, true)
+end
 
-    function AlCanvas(width::Int = -1, height::Int = -1; framerate = 60)
-        w = Canvas(width, height)
-        return new(w, framerate, true)
+"""
+        framerate!(app, fr)
+
+Change the current framerate to `fr`.
+"""
+function framerate!(app::DrawingApp, fr::Real)
+    app.framerate = fr
+end
+"""
+        noloop!(app)
+
+Prevent the canvas from looping.
+"""
+function noloop!(app::DrawingApp)
+    app.looping = false
+end
+
+function startloop(app::DrawingApp)
+    while app.looping
+        draw(app.canvas)
+        sleep(inv(app.framerate))
     end
 end
 
-Base.show(io::IO, alc::AlCanvas) = write(io, "AlCanvas(loop = $(alc.loop), draw = $(isdefined(alc, :draw)))\n")
-
 """
-        loop!(alc::AlCanvas)
+    loop!(app, setup, update; [ async = false])
 
-Starts the drawing loop of the `alc` canvas.
+Start the application with the respectives `setup` and `update` functions.
+
+If `async` parameter is true, the loop will be asynchronous.
 """
-function loop!(alc::AlCanvas)
-    @assert isdefined(alc, :draw) "Canvas must have a draw function."
+function loop!(app::DrawingApp, setup::Maybe{Function}, update::Function; async = false)
+    showall(app.window)
 
-    function draw(wg)
-        w, h = Gtk.width(wg), Gtk.height(wg)
+    w, h = width(app.window), height(app.window)
+
+    if setup isa Function
+        setup(w, h)
+    end
+
+    @guarded draw(app.canvas) do c
+        w, h = width(c), height(c)
         d = Drawing(w, h, :image)
-        d.cr = Gtk.getgc(wg)
-        alc.draw(w, h)
+        d.cr = getgc(c)
+        try
+            update(w, h)
+        catch e
+            @error "Error in update function" exception=e
+            Base.show_backtrace(stderr, catch_backtrace())
+            app.looping = false
+        end
         finish()
     end
-    
-    Gtk.@guarded Gtk.draw(alc.widget) do wg
-        w, h = Gtk.width(wg), Gtk.height(wg)
-        if !isdefined(alc, :setup)
-            @info "Starting without setup function."
-        else
-            if hasmethod(alc.setup, Tuple{Int, Int})
-                alc.setup(w, h)
-            else
-                alc.setup()
-            end
-        end
-        Gtk.draw(draw, alc.widget)
+
+    on!(:destroy, app.window) do w
+        app.looping = false
     end
-    while alc.loop
-        try
-            Gtk.draw(alc.widget)
-            sleep(inv(alc.framerate))
-        catch e
-            alc.loop = false
-            @error "Error in drawing loop!" exception=e
-            Base.show_backtrace(stderr, catch_backtrace())
-            break
-        end
-    end
-end
 
-"""
-        noloop!(alc::AlCanvas)
-
-Stop the drawing loop of the `alc` canvas.
-"""
-function noloop!(alc::AlCanvas)
-    alc.loop = false
-end
-"""
-        width(alc::AlCanvas)
-
-Gets the current `width` of the canvas `alc`.
-"""
-function width(alc::AlCanvas)
-    Gtk.width(alc.widget)
-end
-"""
-        height(alc::AlCanvas)
-
-Gets the current `height` of the canvas `alc`.
-"""
-function height(alc::AlCanvas)
-    Gtk.height(alc.widget)
-end
-
-"""
-        framerate!(alc::AlCanvas, fr::Real)
-
-Sets the framerate of the `alc` canvas to `fr`.
-"""
-function framerate!(alc::AlCanvas, fr::Real)
-    alc.framerate = fr
-end
-"""
-        setup!(callback::Function, alc::AlCanvas)
-
-Sets the `setup` function of the `alc` canvas.
-
-The setup function runs before the loop starts.
-
-The `callback` function can accept 2 parameters `width` and `height`
-that correspond to the width and height of the canvas.
-
-# Example
-
-```julia
-canvas = AlCanvas(800, 600; title = "My Canvas")
-
-setup!(canvas) do width, height
-    println("Starting...")
-    @show width height
-end
-```
-"""
-function setup!(callback::Function, alc::AlCanvas)
-    alc.setup = callback
-end
-"""
-        draw!(callback::Function, alc::AlCanvas)
-
-Sets the `draw` function of the `alc` canvas.
-
-The draw function runs every frame.
-
-The `callback` function can accept 2 parameters `width` and `height`
-that correspond to the width and height of the canvas.
-
-# Example
-
-```julia
-canvas = AlCanvas(800, 600; title = "My Canvas")
-
-draw!(canvas) do width, height
-    background("black")
-    origin()
-    radius = rand(0:200)
-    sethue("white")
-    circle(Point(0, 0), radius, :fill)
-end
-```
-"""
-function draw!(callback::Function, alc::AlCanvas)
-    if hasmethod(callback, Tuple{Real, Real})
-        alc.draw = callback
+    if async
+        @async startloop(app)
     else
-        alc.draw = (w, h) -> callback()
+        startloop(app)
     end
 end
 
-const CURRENT_APP = Array{Dict, 1}()
+function loop!(app::DrawingApp, update::Function; async = false)
+    loop!(app, missing, update; async)
+end
+
+const CURRENT_APP = Array{DrawingApp, 1}()
+const CURRENT_LAYOUT = Array{Layout, 1}()
 
 function get_current_app()
     try
-        CURRENT_APP[1]
+        first(CURRENT_APP)
     catch
-        error("There is no current app!")
+        error("There is no current drawing app.")
     end
 end
 
-get_current_canvas()    = get(get_current_app(), :canvas    , missing)
-get_current_window()    = get(get_current_app(), :window    , missing)
-get_current_container() = get(get_current_app(), :container , missing)
+function get_current_layout()
+    try
+        first(CURRENT_LAYOUT)
+    catch
+        error("There is no current drawing app.")
+    end
+end
+
+get_current_window() = getfield(get_current_app(), :window)
+get_current_canvas() = getfield(get_current_app(), :canvas)
+
+const DEFAULT_LAYOUT = [VPanels{80}]
+
+function uselayout(::Type{T}) where T <: Layout
+    DEFAULT_LAYOUT[1] = T
+end
 
 """
-        createCanvas(width::Int, height::Int [layout=Layout{:overlay},]; kwargs...)
+        createCanvas(width, height, layout; [ title, framerate])
 
-Create a new canvas.
+Create a new canvas application.
 """
-function createCanvas(width::Int, height::Int, layout = Layout{:overlay}; title = "My Canvas")
-    canvas = AlCanvas()       
-    body, container = layout_rule(layout, canvas.widget)
-    window = Window([body], title, width, height)
-    app = dict(; canvas, window, container)
+function createCanvas(width::Int, height::Int, ::Type{T};
+    title::String = "Canvas", framerate::Real = 60) where T <: Layout
+    
+    win = Window(width, height; title)
+    canvas = Canvas()
+    app = DrawingApp(win, canvas; framerate)
 
     if isempty(CURRENT_APP)
         push!(CURRENT_APP, app)
     else
         CURRENT_APP[1] = app
     end
-end
 
-draw!(callback::Function)  = draw!(callback, get_current_canvas())
-setup!(callback::Function) = setup!(callback, get_current_canvas())
-noloop!()                  = noloop!(get_current_canvas())
-framerate!(fr::Real)       = framerate!(get_current_canvas(), fr)
-width()                    = width(get_current_canvas())
-height()                   = height(get_current_canvas())
+    lyt = createLayout(T, canvas, win)
 
-function loop!(; async::Bool = false)
-    canvas = get_current_canvas()
-    win = get_current_window()
-
-    Gtk.showall(win)
-
-    on(:destroy, win) do args...
-        noloop!(canvas)
-    end
-
-    if async
-        @async loop!(canvas)
+    if isempty(CURRENT_LAYOUT)
+        push!(CURRENT_LAYOUT, lyt)
     else
-        loop!(canvas)
+        CURRENT_LAYOUT[1] = lyt
     end
 end
 
-function add(w::Gtk.GtkWidget)
-    container = get_current_container()
-    push!(container, w)
-    return w
+createCanvas(width, height; kwargs...) = createCanvas(width, height, DEFAULT_LAYOUT[1]; kwargs...)
+
+function loop!(setup::Maybe{Function}, update::Function; async = false)
+    loop!(get_current_app(), setup, update; async)
 end
 
+function loop!(update::Function; async = false)
+    loop!(nothing, update; async)
+end
+
+framerate!(fr::Real) = framerate!(get_current_app(), fr)
+noloop!() = noloop!(get_current_app())
+
 """
-Adds a widget to the current container.
+        @add widget
+
+Adds a widget to the current app.
+
+# Examples
+
+```julia-repl
+julia> sw = @add Switch(false)
+GtkSwitchLeaf...
+
+julia> @add slider = Slider(1:120)
+GtkScaleLeaf...
+
+julia> @add box = Box(Label("Some message"), :v)
+GtkBoxLeaf...
+
+```
 """
-macro add(expr)
-    if @capture(expr, name_ = w__)
-        esc(:( $name = add($(first(w))) ))
+macro add(ex)
+    if Meta.isexpr(ex, Symbol("="))
+        n, e = ex.args
+        :( $(esc(n)) = add!($(esc(e)), get_current_layout(), get_current_window()) )
     else
-        :( add($(esc(expr))) )
+        :( add!($(esc(ex)), get_current_layout(), get_current_window()) )
     end
 end
-
 """
+        @width
+
 Returns the current canvas `width`.
 """
 macro width()
-    esc(:( width() ))
+    :( width(get_current_canvas()) )
 end
-
 """
+        @height
+
 Returns the current canvas `height`.
 """
 macro height()
-    esc(:( height() ))
+    :( height(get_current_canvas()) )
+end
+
+"""
+        @framerate
+
+Returns the current canvas `framerate`.
+"""
+macro framerate()
+    :( getfield(get_current_app(), :framerate) )
+end
+"""
+        @canvas
+
+Returns the current `canvas`.
+"""
+macro canvas()
+    :( get_current_canvas() )
+end
+"""
+        @window
+
+Returns the current `window`.
+"""
+macro window()
+    :( get_current_window() )
+end
+"""
+        @app
+
+Returns the current `app`.
+"""
+macro app()
+    :( get_current_app() )
 end
