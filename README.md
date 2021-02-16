@@ -105,31 +105,31 @@ Outputs:
 
 See the [examples](./examples) folder for more examples.
 
-# About this package
+## About this package
 
 > English is not my native language, so if you se any errors, i'm sorry.
 
-## For what i can use this package?
+### For what i can use this package?
 
 Use this package for creating interactive visualizations using a window and widgets from the [Gtk.jl](https://github.com/JuliaGraphics/Gtk.jl) package and the drawing tools from the awsome [Luxor.jl](https://github.com/JuliaGraphics/Luxor.jl) package.
 
-## Why do you have created this package?
+### Why do you have created this package?
 
 I'm think **julia** is a perfect language for creating visualizations because of its performance and syntax, and i was trying to created a drawing package for that, but a find Luxor.jl and Gtk.jl so i decided to bring then together.
 
-## What performance benefits i'll have?
+### What performance benefits i'll have?
 
 I guess you'll have good performance if you don't try to draw something real crazy, like more than 1 thousand little things that constantly updates on the screen, for that, i'll recommend to you learning other packages that use OpenGL or learn how to draw with OpenGL from scratch, but this package is good if you want to relax and create simple visualizations that the user can interact with, you can even create the Snake game.
 
-## 3D Support?
+### 3D Support?
 
 Well... I think there is a package that allows you to create 3D things with Luxor, but, if you really want to draw 3D things, i don't think this is the better package for you to use. Like i said above, try messing with OpenGL. **But**, in the future i'll try to implement 3D with OpenGL in this package, but not for now.
 
-## How can i contribute?
+### How can i contribute?
 
 I'm not a professional developer, programming is my hobby, and most of my projects came from that (even what i study on college doesn't have anything to do with programming), but i love to code, and if you se some bugs or things that you can optimize, feel free to creating a issue or pull request.
 
-## Why the name?
+### Why the name?
 
 Well, **Alexya** is a friend of mine, and just think her name is so beautiful, and also i'm terrible at choosing names, so i just picked her name.
 
