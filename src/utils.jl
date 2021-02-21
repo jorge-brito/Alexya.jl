@@ -1,4 +1,4 @@
-const Maybe{T} = Union{Nothing, T}
+const Maybe{T} = Union{Missing, T}
 
 """
         point(v)
@@ -74,13 +74,23 @@ end
 
 function getFPS!(lf::Ref{DateTime})
     then = Dates.now()
-    Δt = Millisecond(then - lf).value
+    Δt = Millisecond(then - lf[]).value
     lf[] = then
     return 1000 / Δt
 end
 
 function sizeof(win::GtkWindow)
     return width(win), height(win)
+end
+
+function resizeWidth!(win::GtkWindow, w::Int)
+    h = height(win)
+    resize!(win, w, h)
+end
+
+function resizeHeight!(win::GtkWindow, h::Int)
+    w = width(win)
+    resize!(win, w, h)
 end
 
 macro protected(f, msg)
