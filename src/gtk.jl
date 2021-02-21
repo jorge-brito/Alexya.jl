@@ -111,19 +111,20 @@ function add!(parent::GtkWidget, children::Function)
     add!(parent, children())
 end
 
-function (container::GtkContainer)(children::Vararg{Children{GtkWidget}}; props...)
-    length(props) > 0 && set!(container; props...)
-    for child in children
-        add!(container, children)
-    end
-    return container;
-end
 
 # ----------------- ----------------- ----------- ----------------- -----------------
 # ----------------- ----------------- Gtk Widgets ----------------- -----------------
 # ----------------- ----------------- ----------- ----------------- -----------------
 
 const Children{T} = Union{T, Tuple{Vararg{T}}, AbstractArray{T, 1}, Function}
+
+function (container::GtkContainer)(children::Vararg{Children{GtkWidget}}; props...)
+    length(props) > 0 && set!(container; props...)
+    for child in children
+        add!(container, child)
+    end
+    return container;
+end
 
 function Window(children::Children{GtkWidget}, width::Int, height::Int; title::SString = "A Window Title", props...)
     win = GtkWindow(title, width, height)
@@ -431,10 +432,15 @@ end
 """
 Creates a `GtkScale` (a.k.a. slider) widget.
 """
-function Slider(range::AbstractRange; start::Maybe{Real} = nothing, props...)
+function Slider(range::AbstractRange; startat = missing, props...)
     sc = GtkScale(false, range)
+
+    if startat isa Real
+        value!(sc, startat)
+    end
+
     length(props) > 0 && set!(sc; props...)
-    start isa Real && value!(sc, start)
+
     return sc
 end
 
