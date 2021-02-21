@@ -68,6 +68,13 @@ julia> -5 ↦ (-10:10, 0:1)
 """
 ↦(s::Real, (a, b)::Tuple{UnitRange, UnitRange}) = mapr(s, a, b)
 
-function abs(v::Vector{<:Real})
+function abs(v::Vector{T}) where T <: Real
     √(reduce(+, v .^ 2))
+end
+
+function getFPS!(lf::Ref{DateTime})
+    then = Dates.now()
+    Δt = Millisecond(then - lf).value
+    lf[] = then
+    return 1000 / Δt
 end
