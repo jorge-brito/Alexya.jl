@@ -91,6 +91,8 @@ end
 Returns the `Gtk` constant key of name `keyname`.
 """
 function key(keyname::Union{AbstractString, Symbol})
-    @protected getfield(GConstants, Symbol("GDK_KEY_$keyname")),
-        "Key $keyname not found."
+    @protected begin
+        gdk_key = Symbol("GDK_KEY_$keyname")
+        getfield(GConstants, gdk_key)
+    end "Key $keyname not found."
 end
