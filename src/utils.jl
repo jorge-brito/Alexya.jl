@@ -82,3 +82,14 @@ end
 function sizeof(win::GtkWindow)
     return width(win), height(win)
 end
+
+macro protected(f, msg)
+    quote
+        try
+            $(esc(f))
+        catch e
+            @error $(esc(msg)) exception=e
+            Base.show_backtrace(stderr, catch_backtrace())
+        end
+    end
+end
