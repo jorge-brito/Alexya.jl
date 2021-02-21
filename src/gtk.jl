@@ -111,6 +111,14 @@ function add!(parent::GtkWidget, children::Function)
     add!(parent, children())
 end
 
+function (container::GtkContainer)(children::Vararg{Children{GtkWidget}}; props...)
+    length(props) > 0 && set!(container; props...)
+    for child in children
+        add!(container, children)
+    end
+    return container;
+end
+
 # ----------------- ----------------- ----------- ----------------- -----------------
 # ----------------- ----------------- Gtk Widgets ----------------- -----------------
 # ----------------- ----------------- ----------- ----------------- -----------------
