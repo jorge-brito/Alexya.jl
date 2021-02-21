@@ -78,3 +78,7 @@ function getFPS!(lf::Ref{DateTime})
     lf[] = then
     return 1000 / Δt
 end
+
+function sizeof(win::GtkWindow)
+    return width(win), height(win)
+end
