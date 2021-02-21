@@ -93,3 +93,10 @@ macro protected(f, msg)
         end
     end
 end
+
+macro on(event, widget, callback)
+    args = esc.([callback, event, widget])
+    quote
+        on!($(args...))
+    end
+end
