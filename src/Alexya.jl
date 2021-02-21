@@ -39,7 +39,7 @@ import Gtk:
     bytestring,
     GConstants
 
-@reexport using Colors, Luxor
+@reexport using Colors, Luxor, Dates
 
 import Base: abs
 
