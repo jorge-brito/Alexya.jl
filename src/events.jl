@@ -1,16 +1,3 @@
-macro protected(f, e)
-    quote
-        function callback(args...)
-            try
-                $(esc(f))(args...)
-            catch e
-                @error "Error in $($e) event callback!" exception=e
-                Base.show_backtrace(stderr, catch_backtrace())
-            end
-        end
-    end
-end
-
 """
         onclick!(callback, [ mousebutton], app)
 
@@ -20,7 +7,7 @@ function onclick!(callback::Function, mousebutton::Int, app::DrawingApp)
     setfield!(
         app.canvas.mouse, 
         Symbol("button$(mousebutton)press"), 
-        @protected(callback, :onclick!)
+        (args...) -> @protected(callback(args...), "Error in onclick event callback.")
     )
 end
 
@@ -37,7 +24,7 @@ function onclicked!(callback::Function, mousebutton::Int, app::DrawingApp)
     setfield!(
         app.canvas.mouse, 
         Symbol("button$(mousebutton)release"), 
-        @protected(callback, :onclicked!)
+        (args...) -> @protected(callback(args...), "Error in onclicked event callback.")
     )
 end
 
@@ -52,12 +39,12 @@ Adds a mouse event of type `motion`.
 """
 function onmousemotion!(callback::Function, mousebutton::Int, app::DrawingApp)
     if mousebutton == 0
-        app.canvas.mouse.motion = @protected(callback, :onmousemotion!)
+        app.canvas.mouse.motion = (args...) -> @protected(callback(args...), :onmousemotion!)
     else
         setfield!(
             app.canvas.mouse, 
             Symbol("button$(mousebutton)motion"), 
-            @protected(callback, :onmousemotion!)
+            (args...) -> @protected(callback(args...), "Error in onmousemotion event callback.")
         )
     end
 end
@@ -71,7 +58,11 @@ end
 Sets the `onkeypress` event callback.
 """
 function onkeypress!(callback::Function, window::GtkWindow)
-    on!(@protected(callback, :onkeypress!), "key-press-event", window)
+    on!(
+        (args...) -> @protected(callback(args...), "Error in onkeypress event callback"), 
+        "key-press-event", 
+        window
+    )
 end
 
 function onkeypress!(callback::Function)
@@ -84,7 +75,11 @@ end
 Sets the `onkeyrelease` event callback.
 """
 function onkeyrelease!(callback::Function, window::GtkWindow)
-    on!(@protected(callback, :onkeyrelease!), "key-release-event", window)
+    on!(
+        (args...) -> @protected(callback(args...), "Error in onkeyrelease event callback"), 
+        "key-release-event", 
+        window
+    )
 end
 
 function onkeyrelease!(callback::Function)
@@ -96,10 +91,6 @@ end
 Returns the `Gtk` constant key of name `keyname`.
 """
 function key(keyname::Union{AbstractString, Symbol})
-    try
-        getfield(GConstants, Symbol("GDK_KEY_$keyname"))
-    catch
-        @error "Key $keyname not found."
-        Base.show_backtrace(stderr, catch_backtrace())
-    end
+    @protected getfield(GConstants, Symbol("GDK_KEY_$keyname")),
+        "Key $keyname not found."
 end
