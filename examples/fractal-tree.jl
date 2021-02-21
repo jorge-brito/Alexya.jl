@@ -3,10 +3,11 @@
 
 using Alexya
 
-uselayout(HPanels{200})
+@layout aside()
+
 createCanvas(800, 600) # create a Canvas
 
-@add slider = Slider(0:π/12:2π; start=π/4)
+slider = @create Slider(0:π/12:2π; startat=π/4)
 φ = π/4
 
 function draw(w, h)

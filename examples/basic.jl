@@ -3,12 +3,13 @@
 
 using Alexya
 
+@layout aside()
 createCanvas(800, 600) # create a Canvas
 
 t = 0
 
-# @add macro adds the widget to the window
-@add velocity = Slider(1/10:1/100:1; @hexpand)
+# @create macro creates and adds the widget to the window
+velocity = @create Slider(1/10:1/100:1; @hexpand)
 
 # draw callback is called every frame
 function draw(w, h)

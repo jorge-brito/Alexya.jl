@@ -1,16 +1,16 @@
 using Alexya
 
-uselayout(HPanels{200})
+@layout aside()
 createCanvas(800, 600; title = "Wave")
 
-@add Label("Frequency: ";     @margin(10))
-@add freq = Slider(0:π/6:2π;  @margin(10), start=1)
+@create Label("Frequency: ";     @margin(10))
+freq = @create Slider(0:π/6:2π;  @margin(10), startat=1)
 
-@add Label("Phase: ";         @margin(10))
-@add phase = Slider(0:π/6:2π; @margin(10), start=0)
+@create Label("Phase: ";         @margin(10))
+phase = @create Slider(0:π/6:2π; @margin(10), startat=0)
 
-@add Label("Amplitude: ";     @margin(10))
-@add amp = Slider(0:π/6:2π;   @margin(10), start=1)
+@create Label("Amplitude: ";     @margin(10))
+amp = @create Slider(0:π/6:2π;   @margin(10), startat=1)
 
 function draw(w, h)
     background("white")
