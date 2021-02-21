@@ -1,5 +1,5 @@
 # Exports from utils.jl
-export point, mapr, ↦, abs
+export point, mapr, ↦, abs, getFPS!
 
 export resize!
 
