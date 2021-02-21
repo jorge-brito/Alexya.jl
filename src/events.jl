@@ -3,16 +3,16 @@
 
 Adds a mouse event of type `press`.
 """
-function onclick!(callback::Function, mousebutton::Int, app::DrawingApp)
+function onclick!(callback::Function, mousebutton::Int, canvas::GtkCanvas)
     setfield!(
-        app.canvas.mouse, 
+        canvas.mouse, 
         Symbol("button$(mousebutton)press"), 
         (args...) -> @protected(callback(args...), "Error in onclick event callback.")
     )
 end
 
 function onclick!(callback::Function, mousebutton::Int = 1)
-    onclick!(callback, mousebutton, get_current_app())
+    onclick!(callback, mousebutton, get_current_canvas())
 end
 
 """
@@ -20,16 +20,16 @@ end
 
 Adds a mouse event of type `press`.
 """
-function onclicked!(callback::Function, mousebutton::Int, app::DrawingApp)
+function onclicked!(callback::Function, mousebutton::Int, canvas::GtkCanvas)
     setfield!(
-        app.canvas.mouse, 
+        canvas.mouse, 
         Symbol("button$(mousebutton)release"), 
         (args...) -> @protected(callback(args...), "Error in onclicked event callback.")
     )
 end
 
 function onclicked!(callback::Function, mousebutton::Int = 1)
-    onclicked!(callback, mousebutton, get_current_app())
+    onclicked!(callback, mousebutton, get_current_canvas())
 end
 
 """
@@ -37,12 +37,12 @@ end
 
 Adds a mouse event of type `motion`.
 """
-function onmousemotion!(callback::Function, mousebutton::Int, app::DrawingApp)
+function onmousemotion!(callback::Function, mousebutton::Int, canvas::GtkCanvas)
     if mousebutton == 0
-        app.canvas.mouse.motion = (args...) -> @protected(callback(args...), :onmousemotion!)
+        canvas.mouse.motion = (args...) -> @protected(callback(args...), :onmousemotion!)
     else
         setfield!(
-            app.canvas.mouse, 
+            canvas.mouse, 
             Symbol("button$(mousebutton)motion"), 
             (args...) -> @protected(callback(args...), "Error in onmousemotion event callback.")
         )
@@ -50,7 +50,7 @@ function onmousemotion!(callback::Function, mousebutton::Int, app::DrawingApp)
 end
 
 function onmousemotion!(callback::Function, mousebutton::Int = 0)
-    onmousemotion!(callback, mousebutton, get_current_app())
+    onmousemotion!(callback, mousebutton, get_current_canvas())
 end
 """
         onkeypress!(callback, window)
