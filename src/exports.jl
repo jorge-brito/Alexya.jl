@@ -1,5 +1,5 @@
 # Exports from utils.jl
-export point, mapr, ↦, abs, getFPS!
+export point, mapr, ↦, abs, getFPS!, @protected, @on
 
 export resize!
 
@@ -45,22 +45,10 @@ export margin,
        @rowhg
 
 # Exports from canvas.jl
-export DrawingApp,
-       startloop,
-       loop!,
-       noloop!,
-       framerate!,
-       uselayout,
-       createCanvas,
-       @add,
-       @width,
-       @height,
-       @framerate,
-       @canvas,
-       @window
+export loop!, DrawingApp, createCanvas, @size, @window, @canvas, @height, @width, CURRENT_DRAWINGAPP
 
 # Exports from layout.jl
-export Layout, Panels, VPanels, HPanels, createLayout
+export uselayout!, aside, nolayout, create, @create, @layout, CURRENT_LAYOUT
 
 # Exports from events.jl
 export onclick!, onclicked!, onmousemotion!, onkeypress!, onkeyrelease!, key
