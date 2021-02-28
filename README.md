@@ -1,21 +1,22 @@
 # Alexya.jl
 
-> Note: this package is current in development.
-
 **Alexya** merges [Luxor.jl](https://github.com/JuliaGraphics/Luxor.jl) with [Gtk.jl](https://github.com/JuliaGraphics/Gtk.jl). Use this package to create interactive visualizations with luxor in a Gtk window.
 
 ## Getting Started
 
 ### Instalation
 
-Just use the regular `Pkg`
+Install with the Julia package manager.
 
-`import Pkg; Pkg.add("Alexya")`
+```julia
+import Pkg; Pkg.add("Alexya")
+```
 
 Or
 
-`julia> ] add Alexya`
-
+```julia
+julia> add Alexya
+```
 ### How to use
 
 First, load the package:
@@ -56,7 +57,8 @@ Then, start the loop using those functions:
 ```julia
 loop!(setup, draw)
 ```
-
+If you want to know how to draw things on the screen, check out
+the **Luxor.jl** documentation [here](https://juliahub.com/docs/Luxor/HA9ps/2.7.0/tutorial/).
 
 ## More complete example
 
@@ -107,7 +109,7 @@ See the [examples](./examples) folder for more examples.
 
 ## About this package
 
-> English is not my native language, so if you se any errors, i'm sorry.
+> English is not my native language, so if you see any errors, i'm sorry.
 
 ### For what i can use this package?
 
@@ -127,7 +129,7 @@ Well... I think there is a package that allows you to create 3D things with Luxo
 
 ### How can i contribute?
 
-I'm not a professional developer, programming is my hobby, and most of my projects came from that (even what i study on college doesn't have anything to do with programming), but i love to code, and if you se some bugs or things that you can optimize, feel free to creating a issue or pull request.
+I'm not a professional developer, programming is my hobby, and most of my projects came from that (even what i study on college doesn't have anything to do with programming), but i love to code, and if you see some bugs or things that you can optimize, feel free to creating a issue or pull request.
 
 ### Why the name?
 

@@ -9,6 +9,7 @@ import Gtk:
     GtkContainer,
     GtkWindow, 
     resize!,
+    GdkRGBA,
     GtkBox,
     GtkPaned,
     GtkCanvas,
@@ -41,7 +42,7 @@ import Gtk:
 
 @reexport using Colors, Luxor, Dates
 
-import Base: abs
+import Base: abs, convert
 
 include("utils.jl")
 include("gtk.jl")
@@ -50,10 +51,5 @@ include("layout.jl")
 include("canvas.jl")
 include("events.jl")
 include("exports.jl")
-
-if VERSION >= v"1.1"   # work around https://github.com/JuliaLang/julia/issues/34121
-    include("precompile.jl")
-    _precompile_()
-end
 
 end
