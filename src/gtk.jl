@@ -89,6 +89,10 @@ function value(entry::GtkEntry)
     return bytestring(GAccessor.text(entry))
 end
 
+function value(cbtn::GtkColorButton)
+    return convert(RGBA, getprop(cbtn, "rgba", Gtk.GdkRGBA))
+end
+
 function add!(parent::GtkWidget, child::GtkWidget)
     push!(parent, child)
 end
@@ -452,3 +456,11 @@ function Canvas(width::Int = -1, height::Int = -1; props...)
     length(props) > 0 && set!(c; props...)
     return c
 end
+
+function ColorButton(c::Colorant = colorant"#fff"; props...)
+    cbtn = GtkColorButton(convert(Gtk.GdkRGBA, c))
+    length(props) > 0 && set!(cbtn; props...)
+    return cbtn
+end
+
+ColorButton(c::String; props...) = ColorButton(parse(Colorant, c); props...)

@@ -1,5 +1,5 @@
 # Exports from utils.jl
-export point, mapr, ↦, abs, getFPS!, @protected, @on
+export Gtk, point, mapr, ↦, abs, getFPS!, @protected, @on
 
 export resize!
 
@@ -31,7 +31,8 @@ export GtkWidget,
        @label_str,
        Entry,
        Slider,
-       Canvas
+       Canvas,
+       ColorButton
 
 # Exports from helpers.jl
 export margin,
@@ -45,7 +46,17 @@ export margin,
        @rowhg
 
 # Exports from canvas.jl
-export loop!, DrawingApp, createCanvas, @size, @window, @canvas, @height, @width, CURRENT_DRAWINGAPP
+export loop!, 
+    DrawingApp, 
+    createCanvas, 
+    framerate!,
+    dontloop!,
+    @size, 
+    @window, 
+    @canvas, 
+    @height, 
+    @width, 
+    CURRENT_DRAWINGAPP
 
 # Exports from layout.jl
 export uselayout!, aside, nolayout, create, @create, @layout, CURRENT_LAYOUT
