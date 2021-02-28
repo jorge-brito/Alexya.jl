@@ -6,6 +6,10 @@
     @test canvas isa Alexya.GtkCanvas
 
     function draw(w, h)
+
+        @test w == 800
+        @test h == 600
+
         fps = getFPS!(lf) |> round
         background("black")
         sethue("white")
@@ -25,6 +29,8 @@ end
     radius = @create Slider(1:200; startat = 20)
 
     function setup(w, h)
+        @test w == 800
+        @test h == 600
         println("Creating canvas with width of $w and height of $h")
     end
 

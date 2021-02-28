@@ -74,9 +74,16 @@ end
 
 @testset "Grid Macro" begin
     win = Window(800, 600; title = "Grid Macro Test")
+    cbtn = ColorButton("#f1a")
+
+    println(value(cbtn))
+    on!("color-set", cbtn) do w
+        println(value(w))
+    end
+
     grid = @grid [ 
         Button(".") → 2 ""              Button(".")    
-        Button(".")     Button(".") ↓ 3 Button(".") ↓ 2
+        cbtn            Button(".") ↓ 3 Button(".") ↓ 2
         Button(".")     ""              ""             
         Button(".")     ""              Button(".")    
     ] row_homogeneous = true column_homogeneous = true
@@ -116,4 +123,5 @@ end
     @test Slider(1:50) isa Alexya.GtkScale
     @test Entry("I'm just a regular every day normal **") isa Alexya.GtkEntry
     @test Paned(:v) isa Alexya.GtkPaned
+    @test ColorButton() isa Alexya.GtkColorButton
 end
