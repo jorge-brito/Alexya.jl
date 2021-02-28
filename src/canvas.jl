@@ -1,10 +1,15 @@
-function loop!(update::Function, window::GtkWindow, canvas::GtkCanvas; framerate::Real = 64)
-    isRunning = Ref{Bool}(true)
-
+function loop!(
+    update::Function, 
+    window::GtkWindow, 
+    canvas::GtkCanvas; 
+    framerate::Real = 64, 
+    isRunning::Ref{Bool} = Ref{Bool}(true)
+)
      @guarded draw(canvas) do c
         w, h = width(c), height(c)
         d = Drawing(w, h, :image)
         d.cr = getgc(c)        
+        gsave()
         try
             if applicable(update, w, h)
                 update(w, h)
@@ -16,6 +21,7 @@ function loop!(update::Function, window::GtkWindow, canvas::GtkCanvas; framerate
             Base.show_backtrace(stderr, catch_backtrace())
             isRunning[] = false
         end
+        grestore()
         finish()
     end
 
@@ -32,9 +38,11 @@ function loop!(update::Function, window::GtkWindow, canvas::GtkCanvas; framerate
 end
 
 mutable struct DrawingApp
+    size::Vector{<:Int}
     window::Maybe{GtkWindow}
     canvas::Maybe{GtkCanvas}
     framerate::Real
+    running::Ref{Bool}
     add::Function
 end
 
@@ -52,11 +60,10 @@ get_current_window() = getfield(get_current_app(), :window)
 get_current_canvas() = getfield(get_current_app(), :canvas)
 
 function createCanvas(width::Int, height::Int; framerate::Real = 60, title::String = "Canvas")
-    window = Window(width, height; title)
     canvas = Canvas()
     layout = first(CURRENT_LAYOUT)
-    add = layout(window, canvas)
-    app = DrawingApp(window, canvas, framerate, add)
+    window, add = layout(width, height, title, canvas)
+    app = DrawingApp(Int[width, height], window, canvas, framerate, Ref{Bool}(true), add)
 
     empty!(CURRENT_DRAWINGAPP)
     push!(CURRENT_DRAWINGAPP, app)
@@ -68,22 +75,31 @@ function loop!(setup::Maybe{Function}, update::Function)
     app = get_current_app()
     window = app.window
     canvas = app.canvas
+    isRunning = app.running
+    framerate = app.framerate
 
     showall(window)
-    wwidth, wheight = sizeof(window)
+    w, h = app.size
 
     if setup isa Function
-        if applicable(setup, wwidth, wheight)
-            setup(wwidth, wheight)
+        if applicable(setup, w, h)
+            setup(w, h)
         else
             setup()
         end
     end
 
-    loop!(update, window, canvas; framerate = app.framerate)
+    loop!(update, window, canvas; framerate, isRunning)
 end
 
 loop!(update::Function) = loop!(missing, update)
+
+function dontloop!()
+    app = get_current_app()
+    app.running[] = false
+end
+
+framerate!(fps::Real) = setfield!(get_current_app(), :framerate, fps)
 
 macro size()
     :( sizeof( get_current_window() ) )

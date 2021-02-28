@@ -1,6 +1,8 @@
-function nolayout(window::GtkWindow, canvas::GtkCanvas)
-    add!(window, canvas)
-    return function(child::T) where T <: GtkWidget
+function nolayout(width::Int, height::Int, title::String, canvas::GtkCanvas)
+    return Window(width, height; title) do 
+        canvas
+    end,
+    function(child::T) where T <: GtkWidget
         @warn """
         
         Attempt to add widget of type $T but no layout is being used.
@@ -16,39 +18,36 @@ function nolayout(window::GtkWindow, canvas::GtkCanvas)
 end
 
 function aside(::Val{:vertical}, size::Int, reverse::Bool)
-    return function(window, canvas)
-        w = width(window)
+    return function(width::Int, height::Int, title::String, canvas::GtkCanvas)
         box = Box(:v; @margin(20, 10))
-        _empty = true
-
-        pn = Paned(:h; position = w) do
-            reverse && return box, canvas
-            return canvas, box
-        end
-
-        add!(window, pn)
-        resizeWidth!(window, w + size)
-
-        return (child) -> add!(box, child)
+        Window(width + size, height; title) do 
+            Paned(:h; position = width) do 
+                if reverse
+                    return box, canvas
+                else
+                    return canvas, box
+                end
+            end # Paned
+        end, # Window
+        (child) -> add!(box, child)
     end
 end
 
 aside(::Val{:v}, args...) = aside(Val(:vertical), args...)
 
 function aside(::Val{:horizontal}, size::Int, reverse::Bool)
-    return function(window, canvas)
-        h = width(window)
+    return function(width::Int, height::Int, title::String, canvas::GtkCanvas)
         box = Box(:h; @margin(20, 10))
-
-        pn = Paned(:v; position = h) do
-            reverse && return box, canvas
-            return canvas, box
-        end
-
-        add!(window, pn)
-        resizeHeight!(window, h + size)
-        
-        return (child) -> add!(box, child)
+        Window(width, height + size; title) do 
+            Paned(:v; position = height) do 
+                if reverse
+                    return box, canvas
+                else
+                    return canvas, box
+                end
+            end # Paned
+        end, # Window
+        (child) -> add!(box, child)
     end
 end
 
