@@ -110,3 +110,12 @@ macro on(event, widget, callback)
         on!($(args...))
     end
 end
+
+function convert(::Type{GdkRGBA}, c::T) where T <: ColorAlpha
+    c__ = convert(RGBA, c)
+    return GdkRGBA(c__.r, c__.g, c__.b, c__.alpha)
+end
+
+convert(::Type{GdkRGBA}, c::T) where T <: Colorant = convert(GdkRGBA, convert(RGBA, c))
+convert(::Type{T}, c::GdkRGBA) where T <: ColorAlpha = convert(T, RGBA(c.r, c.g, c.b, c.a))
+convert(::Type{T}, c::GdkRGBA) where T <: Color = convert(T, RGB(c.r, c.g, c.b))
