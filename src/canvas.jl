@@ -90,6 +90,8 @@ function loop!(setup::Maybe{Function}, update::Function)
     end
 
     loop!(update, window, canvas; framerate, isRunning)
+    # reset the layout
+    @layout nolayout
 end
 
 loop!(update::Function) = loop!(missing, update)
