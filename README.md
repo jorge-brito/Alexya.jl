@@ -60,52 +60,69 @@ loop!(setup, draw)
 If you want to know how to draw things on the screen, check out
 the **Luxor.jl** documentation [here](https://juliahub.com/docs/Luxor/HA9ps/2.7.0/tutorial/).
 
-## More complete example
+## Complete example
 
 ```julia
-# Example adapted from Luxor.jl documentation
-# https://juliagraphics.github.io/Luxor.jl/stable/polygons/#Offsetting-polygons
+# Example adapted from Daniel Shiffman - The Coding Train
+# https://youtu.be/0jjeOYMjmDU?list=PLRqwX-V7Uu6ZiZxtDDRCi6uhfTH4FilpH
 
 using Alexya
 
+@layout aside()
+
 createCanvas(800, 600) # create a Canvas
 
-t = 0
+slider = @create Slider(0:π/12:2π; startat=π/4)
+φ = π/4
 
-# @add macro adds the widget to the window
-@add velocity = Slider(1/10:1/100:1; @hexpand)
-
-# draw callback is called every frame
 function draw(w, h)
-    background("#e1e1e1")
-    origin()
+    global φ = value(slider)
 
-    spine = [Point(20x, 15sin(x + t)) for x in -4π:pi/24:4pi]
+    background("#515151")
+    origin(w/2, h)
+    sethue("white")
+    branch(150)
+end
 
-    f(t, b, c, d) = 2sin(t * π)
+function branch(len)
+    line(O, Point(0, -len), :stroke)
+    translate(0, -len)
+    
+    if len > 4
+        gsave()
+        rotate(φ)
+        branch(.67len)
+        grestore()
 
-    pg = offsetpoly(spine, startoffset=1, endoffset=10, easingfunction=f)
-    sethue("black")
-    poly(pg, :fill)
-
-    sethue("#e1e1e1")
-    poly(spine, :stroke)
-
-    global t += value(velocity)
-
-    if t >= 6π
-        global t = 0
+        gsave()
+        rotate(-φ)
+        branch(.67len)
+        grestore()
     end
 end
 
-loop!(draw) # Start the loop
+loop!(draw)
 ```
 
 Outputs:
 
-![Basic Example](example.gif)
+![Fractal trees Example](example2.gif)
 
-See the [examples](./examples) folder for more examples.
+## More Examples
+
+### Basic example
+
+![Basic Example](example1.gif)
+
+### Vector field visualization
+
+![Vector Field Example](example3.gif)
+
+### The Snake Game
+
+![Snake Game Example](example4.gif)
+
+See the [examples](./examples) folder to view the code of each example.
 
 ## About this package
 
