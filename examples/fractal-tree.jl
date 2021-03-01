@@ -1,4 +1,4 @@
-# Example adapted from The Coding Train
+# Example adapted from Daniel Shiffman - The Coding Train
 # https://youtu.be/0jjeOYMjmDU?list=PLRqwX-V7Uu6ZiZxtDDRCi6uhfTH4FilpH
 
 using Alexya
