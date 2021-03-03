@@ -103,14 +103,10 @@ normalize(v::Vec) = v / abs(v)
 """
         setmag!(v::Vec, m::Real)
 
-Sets the magnitude of a vector `v`.
+Creates a vector with the direction of `v`
+and magnitude of `m`.
 """
-setmag!(v::Vec, m::Real) = begin
-    u = m * normalize(v)
-    v.x = u.x
-    v.y = u.y
-    return v
-end
+withmag(v::Vec, m::Real) = m * normalize(v)
 
 """
         randv([θ = 0:π/32:2π, m = 1)
