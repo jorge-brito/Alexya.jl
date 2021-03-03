@@ -1,5 +1,17 @@
 # Exports from utils.jl
 export Gtk, point, mapr, ↦, abs, getFPS!, @protected, @on
+export Vec, 
+       getindex, 
+       +, -, /, *, ==, <, >, <=, >=, 
+       transform,
+       rotm2d,
+       rotate,
+       î, ĵ,
+       angle,
+       withangle,
+       normalize,
+       setmag!,
+       randv
 
 export resize!
 
