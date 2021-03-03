@@ -1,5 +1,5 @@
 # Exports from utils.jl
-export Gtk, point, mapr, ↦, abs, getFPS!, @protected, @on
+export Gtk, point, mapr, ↦, getFPS!, @protected, @on
 export Vec, 
        getindex, 
        +, -, /, *, ==, <, >, <=, >=, 
@@ -29,8 +29,6 @@ export GtkWidget,
        Box,
        Paned,
        Grid,
-       GridCell,
-       GridCells,
        Span,
        rspan,
        cspan,
