@@ -106,23 +106,23 @@ loop!(draw)
 
 Outputs:
 
-![Fractal trees Example](example2.gif)
+![Fractal trees Example](preview/example2.gif)
 
 ## More Examples
 
 ### Simple drawing program
 
-![Simple Drawing program Example](example1.gif)
+![Simple Drawing program Example](preview/example1.gif)
 
 ### Vector field visualization
 
-![Vector Field Example](example3.gif)
+![Vector Field Example](preview/example3.gif)
 
 ### The Snake Game
 
-![Snake Game Example](example4.gif)
+![Snake Game Example](preview/example4.gif)
 
-See the [examples](./examples) folder to view the code of each example.
+See the [examples](preview/examples) folder to view the code of each example.
 
 ## About this package
 
