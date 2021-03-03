@@ -121,10 +121,3 @@ Pass a range for `θ` to constraint the possible
 angles and a value for `m` to define its magnitude.
 """
 randv(θ::AbstractRange = 0:π/32:2π, m::Real = 1) = m * withangle(rand(θ))
-"""
-        randv(m::AbstractRange, [θ = 0:π/32:2π])
-    
-Creates a vector that points in a random direction and
-has a random magnitude.
-"""
-randv(m::AbstractRange, θ::AbstractRange = 0:π/32:2π) = withangle(rand(θ), rand(m))
