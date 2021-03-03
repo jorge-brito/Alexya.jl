@@ -93,6 +93,10 @@ function value(cbtn::GtkColorButton)
     return convert(RGBA, getprop(cbtn, "rgba", Gtk.GdkRGBA))
 end
 
+function value(switch::GtkSwitch)
+    return getprop(switch, :active, Bool)
+end
+
 function add!(parent::GtkWidget, child::GtkWidget)
     push!(parent, child)
 end
@@ -297,9 +301,6 @@ Span{:rows, 3}(GtkLabelLeaf...)
 """
 ↓(w::GtkWidget, N::Int) = cspan(w, N)
 
-const GridCell = Union{GtkWidget, Span, Char, String}
-const GridCells = AbstractArray{<:GridCell, 2}
-
 """
         Grid(cells; props...)
 Creates a grid widget that groups its children in a grid layout.
@@ -330,7 +331,7 @@ GtkGridLeaf...
 
 ```
 """
-function Grid(cells::GridCells; props...)
+function Grid(cells::AbstractArray{Any, 2}; props...)
     grid = GtkGrid()
     length(props) > 0 && set!(grid; props...)
     if length(cells) > 0
@@ -464,3 +465,9 @@ function ColorButton(c::Colorant = colorant"#fff"; props...)
 end
 
 ColorButton(c::String; props...) = ColorButton(parse(Colorant, c); props...)
+
+function Switch(on::Bool = false; props...)
+    w = GtkSwitch(on)
+    length(props) > 0 && set!(w; props...)
+    return w
+end
