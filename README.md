@@ -15,7 +15,7 @@ import Pkg; Pkg.add("Alexya")
 Or
 
 ```julia
-julia> add Alexya
+julia> ] add Alexya
 ```
 ### How to use
 
