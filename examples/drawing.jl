@@ -78,6 +78,7 @@ function update(w, h)
         # translate the spiral to the origin
         pgon = map(p -> Point(w/2, h/2) + p, offsetpoly(spiralcurve, f))
         push!(sketchs, Sketch(pgon, colorant"black", 1, true))
+        global firstframe = false
     end
 
     background(value(bg))
@@ -88,8 +89,6 @@ function update(w, h)
         action = sketch.fill ? :fill : :stroke
         poly(simplify(sketch.points), action)
     end
-
-    global firstframe = false
 end
 
 onmousemotion!(1) do w, event
