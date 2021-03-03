@@ -110,9 +110,9 @@ Outputs:
 
 ## More Examples
 
-### Basic example
+### Simple drawing program
 
-![Basic Example](example1.gif)
+![Simple Drawing program Example](example1.gif)
 
 ### Vector field visualization
 
