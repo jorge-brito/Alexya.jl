@@ -44,7 +44,8 @@ export GtkWidget,
        Entry,
        Slider,
        Canvas,
-       ColorButton
+       ColorButton,
+       Switch
 
 # Exports from helpers.jl
 export margin,
