@@ -14,7 +14,7 @@ Returns a function that linearly map values from the `a` interval to the `b` int
 
 # Examples
 
-```julia-repl
+```julia
 julia> f = mapr(0:1, 0:10)
 # (generic function with 1 method)
 
@@ -38,7 +38,7 @@ Returns the value `s` from the `a` interval linearly mapped on the `b` interval.
 
 # Examples
 
-```julia-repl
+```julia
 julia> mapr(1, 0:1, 0:10)
 10.0
 
@@ -47,7 +47,7 @@ julia> mapr(0.5, 0:1, 0:10)
 
 ```
 """
-function mapr(s::Real, a::UnitRange, b::UnitRange)
+function mapr(s::Real, a::AbstractRange, b::AbstractRange)
     return mapr(a, b)(s)
 end
 """
@@ -57,7 +57,7 @@ Returns the value `s` from the `a` interval linearly mapped on the `b` interval.
 
 # Examples
 
-```julia-repl
+```julia
 julia> 2 ↦ (0:1, 0:10)
 20.0
 
@@ -66,8 +66,24 @@ julia> -5 ↦ (-10:10, 0:1)
 
 ```
 """
-↦(s::Real, (a, b)::Tuple{UnitRange, UnitRange}) = mapr(s, a, b)
+↦(s::Real, (a, b)::Tuple{AbstractRange, AbstractRange}) = mapr(s, a, b)
 
+"""
+        abs(v::Vector)
+
+Returns the absolute value of a julia vector.
+
+# Examples
+
+```julia
+julia> abs([3, 4])
+5.0
+
+julia> abs([1, 2, 3])
+3.7416573867739413
+
+```
+"""
 function abs(v::Vector{T}) where T <: Real
     √(reduce(+, v .^ 2))
 end
