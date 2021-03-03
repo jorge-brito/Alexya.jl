@@ -17,7 +17,7 @@ length(v::Vec) = 2
 convert(::Type{Vec}, a::Vector{<:Real}) = Vec(a[begin], a[end])
 convert(::Type{Vector{<:Real}}, v::Vec) = Float64[v.x, v.y]
 convert(::Type{Point}, v::Vec) = Point(v.x, v.y)
-convert(::Type{Vec}, p::Point) = Vec(v.x, v.y)
+convert(::Type{Vec}, p::Point) = Vec(p.x, p.y)
 
 point(v::Vec) = convert(Point, v)
 getindex(v::Vec, i::Int) = convert(Vector{<:Real}, v)[i]
