@@ -23,6 +23,7 @@ import Gtk:
     GtkGrid,
     GtkButton,
     GtkColorButton,
+    GtkSwitch,
     GtkScale,
     GtkEntry,
     GtkComboBoxText,
