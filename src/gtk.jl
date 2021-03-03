@@ -331,7 +331,7 @@ GtkGridLeaf...
 
 ```
 """
-function Grid(cells::AbstractArray{Any, 2}; props...)
+function Grid(cells::Array{C, 2}; props...) where C
     grid = GtkGrid()
     length(props) > 0 && set!(grid; props...)
     if length(cells) > 0
