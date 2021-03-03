@@ -69,16 +69,17 @@ create_sketch() = push!(sketchs, Sketch(
 )
 
 global drawing = false
-
-function setup(w, h)
-    spiralcurve = spiral(20, 0.3, log=true, period=3π)
-    f(x, θ) = 1 + 15sin(x * π)
-    # translate the spiral to the origin
-    pgon = map(p -> Point(w/2, h/2) + p, offsetpoly(spiralcurve, f))
-    push!(sketchs, Sketch(pgon, colorant"black", 1, true))
-end
+global firstframe = true
 
 function update(w, h)
+    if firstframe
+        spiralcurve = spiral(20, 0.3, log=true, period=3π)
+        f(x, θ) = 1 + 15sin(x * π)
+        # translate the spiral to the origin
+        pgon = map(p -> Point(w/2, h/2) + p, offsetpoly(spiralcurve, f))
+        push!(sketchs, Sketch(pgon, colorant"black", 1, true))
+    end
+
     background(value(bg))
 
     for sketch in sketchs
@@ -87,6 +88,8 @@ function update(w, h)
         action = sketch.fill ? :fill : :stroke
         poly(simplify(sketch.points), action)
     end
+
+    global firstframe = false
 end
 
 onmousemotion!(1) do w, event
@@ -102,4 +105,4 @@ onclicked!(1) do w, event
     global drawing = false
 end
 
-loop!(setup, update)
+loop!(update)
