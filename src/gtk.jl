@@ -359,7 +359,7 @@ function Grid(cells::Array{C, 2}; props...) where C
 end
 
 function Grid(cells::Function; props...)
-    return Grid(cells()::GridCells; props...)
+    return Grid(cells(); props...)
 end
 
 """
@@ -386,14 +386,8 @@ macro grid(cells, props...)
         return Expr(:kw, p.args...)
     end
 
-    if Meta.isexpr(cells, :typed_vcat)
-        _cells = cells
-    else
-        _cells = Expr(:typed_vcat, :GridCell, cells.args...)
-    end
-
     quote
-        Grid($_cells; $(kws...))
+        Grid($cells; $(kws...))
     end |> esc
 end
 
