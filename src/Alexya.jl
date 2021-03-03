@@ -42,9 +42,10 @@ import Gtk:
 
 @reexport using Colors, Luxor, Dates
 
-import Base: abs, convert
+import Base: +, -, *, /, ==, >, <, <=, >=, convert, length, getindex
 
 include("utils.jl")
+include("vector.jl")
 include("gtk.jl")
 include("helpers.jl")
 include("layout.jl")
