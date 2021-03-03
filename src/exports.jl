@@ -10,7 +10,7 @@ export Vec,
        angle,
        withangle,
        normalize,
-       setmag!,
+       withmag,
        randv
 
 export resize!
