@@ -51,7 +51,7 @@ end
 @testset "Grid with Span cells" begin
     win = Window(800, 600; title = "Grid with Span cells Test")
     grid = Grid(@columnhg, @rowhg) do
-    GridCell[ 
+    [ 
         Button(".") → 2 ""              Button(".")    
         Button(".")     Button(".") ↓ 3 Button(".") ↓ 2
         Button(".")     ""              ""             
