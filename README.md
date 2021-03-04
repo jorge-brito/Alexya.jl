@@ -122,7 +122,7 @@ Outputs:
 
 ![Snake Game Example](preview/example4.gif)
 
-See the [examples](preview/examples) folder to view the code of each example.
+See the [examples](/examples) folder to view the code of each example.
 
 ## About this package
 
