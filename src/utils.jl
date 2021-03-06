@@ -26,7 +26,13 @@ julia> f(0.5)
 
 ```
 """
-function mapr(a::AbstractRange, b::AbstractRange)
+function mapr(a::UnitRange, b::UnitRange)
+    a₁, a₂ = first(a), last(a)
+    b₁, b₂ = first(b), last(b)
+    return (s) -> b₁ + (s - a₁) * (b₂ - b₁) / (a₂ - a₁)
+end
+
+function mapr(a::Tuple{Real, Real}, b::Tuple{Real, Real})
     a₁, a₂ = first(a), last(a)
     b₁, b₂ = first(b), last(b)
     return (s) -> b₁ + (s - a₁) * (b₂ - b₁) / (a₂ - a₁)
@@ -47,7 +53,11 @@ julia> mapr(0.5, 0:1, 0:10)
 
 ```
 """
-function mapr(s::Real, a::AbstractRange, b::AbstractRange)
+function mapr(s::Real, a::UnitRange, b::UnitRange)
+    return mapr(a, b)(s)
+end
+
+function mapr(s::Real, a::Tuple{Real, Real}, b::Tuple{Real, Real})
     return mapr(a, b)(s)
 end
 """
