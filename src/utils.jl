@@ -78,7 +78,7 @@ julia> -5 ↦ (-10:10, 0:1)
 """
 ↦(s::Real, (a, b)::Tuple{AbstractRange, AbstractRange}) = mapr(s, a, b)
 
-↦(s::Real, a::NTuple{4, Real}) = mapr(s, a, b)
+↦(s::Real, a::Matrix{<:Real}) = mapr(s, tuple(a[1, :]...), tuple(a[2, :]...))
 """
         abs(v::Vector)
 
