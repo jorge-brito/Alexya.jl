@@ -6,6 +6,7 @@
     @test mapr(0:10, 0:1) isa Function
     @test mapr(1, 0:10, 0:1) == 0.1
     @test (1 ↦ (0:10, 0:1)) == 0.1
+    @test mapr(0.5, 0:1, 0:2π) == π/2
 
     c = Gtk.GdkRGBA(1, 0, 1, 1)
     @test convert(ColorAlpha, c) isa RGBA

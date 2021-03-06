@@ -26,7 +26,7 @@ julia> f(0.5)
 
 ```
 """
-function mapr(a::UnitRange, b::UnitRange)
+function mapr(a::AbstractRange, b::AbstractRange)
     a₁, a₂ = first(a), last(a)
     b₁, b₂ = first(b), last(b)
     return (s) -> b₁ + (s - a₁) * (b₂ - b₁) / (a₂ - a₁)
