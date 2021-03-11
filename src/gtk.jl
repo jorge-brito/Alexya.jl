@@ -135,7 +135,13 @@ function (container::GtkContainer)(children::Vararg{Children{GtkWidget}}; props.
 end
 
 function Window(children::Children{GtkWidget}, width::Int, height::Int; title::SString = "A Window Title", props...)
-    win = GtkWindow(title, width, height)
+    # i don't know why but, the total 
+    # width of the window will be width + 46
+    # and the total height will be height + 74
+    # so thats why i'm subtracting by theses numbers
+    # so the window will have the exact size specified
+    # by the width and height
+    win = GtkWindow(title, width - 46, height - 74)
     # if properties are passed, set them.
     length(props) > 0 && set!(win; props...)
     add!(win, children)
