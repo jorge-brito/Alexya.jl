@@ -188,5 +188,5 @@ set!(widget::GtkGrid, key::Symbol, spacing::GridSpacing) = set!(
 
 macro spacing(args...)
     args = esc.([args...])
-    Expr(:kw, :spacing, :( GridSpacing($args...) ))
+    Expr(:kw, :spacing, :( GridSpacing($(args...)) ))
 end
