@@ -54,4 +54,10 @@ include("canvas.jl")
 include("events.jl")
 include("exports.jl")
 
+export runexamples
+
+function runexamples()
+    include(joinpath(@__DIR__, "..", "examples", "runexamples.jl"))
+end
+
 end
