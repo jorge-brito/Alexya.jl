@@ -1,11 +1,5 @@
-function loop!(
-    update::Function, 
-    window::GtkWindow, 
-    canvas::GtkCanvas; 
-    framerate::Real = 64, 
-    isRunning::Ref{Bool} = Ref{Bool}(true)
-)
-     @guarded draw(canvas) do c
+function set_update_function(update::Function, canvas::GtkCanvas)
+    @guarded draw(canvas) do c
         w, h = width(c), height(c)
         d = Drawing(w, h, :image)
         d.cr = getgc(c)        
@@ -19,21 +13,9 @@ function loop!(
         catch e
             @error "Error in update callback." exception=e
             Base.show_backtrace(stderr, catch_backtrace())
-            isRunning[] = false
         end
         grestore()
         finish()
-    end
-
-    @on :destroy window (w) -> begin
-        isRunning[] = false
-    end
-
-    showall(window)
-
-    while isRunning[] == true
-        draw(canvas)
-        sleep(inv(framerate))
     end
 end
 
@@ -71,31 +53,49 @@ function createCanvas(width::Int, height::Int; framerate::Real = 60, title::Stri
     return app
 end
 
-function loop!(setup::Maybe{Function}, update::Function)
+function loop!(setup::Function, update::Function)
     app = get_current_app()
     window = app.window
     canvas = app.canvas
-    isRunning = app.running
-    framerate = app.framerate
+    running = app.running
 
-    showall(window)
-    w, h = app.size
+    changed = Ref{Bool}(false)
 
-    if setup isa Function
-        if applicable(setup, w, h)
-            setup(w, h)
-        else
-            setup()
+    on!(:size_allocate, window) do args...
+        if !changed[]
+            changed[] = true
+            w, h = width(canvas), height(canvas)
+            try
+                if applicable(setup, w, h)
+                    setup(w, h)
+                else
+                    setup()
+                end
+            catch e
+                @error "Error in setup callback" exception=e
+                Base.show_backtrace(stderr, catch_backtrace())
+            end
+            set_update_function(update, canvas)
         end
     end
+    
+    on!(:destroy, window) do w
+        @layout nolayout
+        running[] = false
+        Gtk.gtk_quit()
+    end
 
-    loop!(update, window, canvas; framerate, isRunning)
-    # reset the layout
-    @layout nolayout
-    nothing
+    showall(window)
+
+    @async Gtk.gtk_main()
+
+    while running[]
+        draw(canvas)
+        sleep(inv(app.framerate))
+    end
 end
 
-loop!(update::Function) = loop!(missing, update)
+loop!(update::Function) = loop!((args...) -> nothing, update)
 
 function dontloop!()
     app = get_current_app()
@@ -108,18 +108,18 @@ macro size()
     :( sizeof( get_current_window() ) )
 end
 
-macro width()
-    :( first( sizeof( get_current_window() ) ) )
-end
-
-macro height()
-    :( last( sizeof( get_current_window() ) ) )
-end
-
 macro window()
     :( get_current_window() )
 end
 
 macro canvas()
     :( get_current_canvas() )
+end
+
+macro width()
+    :( first( size( get_current_canvas() ) ) )
+end
+
+macro height()
+    :( last( size( get_current_window() ) ) )
 end
