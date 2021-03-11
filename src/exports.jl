@@ -40,7 +40,9 @@ export margin,
        @hexpand,
        @vexpand,
        @columnhg,
-       @rowhg
+       @rowhg,
+       GridSpacing,
+       @spacing
 
 export loop!, 
     DrawingApp, 

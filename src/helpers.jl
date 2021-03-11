@@ -172,3 +172,21 @@ GtkGridLeaf...
 macro rowhg()
     Expr(:kw, :row_homogeneous, true)
 end
+
+struct GridSpacing
+    r::Int
+    c::Int
+end
+
+GridSpacing(v) = GridSpacing(v, v)
+
+set!(widget::GtkGrid, key::Symbol, spacing::GridSpacing) = set!(
+    widget,
+    row_spacing = spacing.r,
+    column_spacing = spacing.c
+)
+
+macro spacing(args...)
+    args = esc.([args...])
+    Expr(:kw, :spacing, :( GridSpacing($args...) ))
+end
