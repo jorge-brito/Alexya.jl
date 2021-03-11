@@ -17,6 +17,8 @@ import Gtk:
     draw,
     width,
     height,
+    size,
+    waitforsignal,
     getgc,
     destroy,
     GtkFrame,
@@ -43,7 +45,7 @@ import Gtk:
 
 @reexport using Colors, Luxor, Dates
 
-import Base: abs, +, -, *, /, ==, >, <, <=, >=, convert, length, getindex
+import Base: abs, +, -, *, /, ==, >, <, <=, >=, |, convert, length, getindex
 
 include("utils.jl")
 include("vector.jl")
@@ -54,7 +56,7 @@ include("canvas.jl")
 include("events.jl")
 include("exports.jl")
 
-export runexamples
+export runexamples, waitforsignal
 
 function runexamples()
     include(joinpath(@__DIR__, "..", "examples", "runexamples.jl"))
