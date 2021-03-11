@@ -45,7 +45,7 @@ import Gtk:
 
 @reexport using Colors, Luxor, Dates
 
-import Base: abs, +, -, *, /, ==, >, <, <=, >=, |, convert, length, getindex
+import Base: abs, +, -, *, /, ==, >, <, <=, >=, convert, length, getindex
 
 include("utils.jl")
 include("vector.jl")
