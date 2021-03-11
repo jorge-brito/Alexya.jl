@@ -55,11 +55,11 @@ rotm2d(θ) = [
     sin(θ)  cos(θ)
 ]
 """
-        rotate(v::Vec, φ::Real)
+        rot(v::Vec, φ::Real)
 
 Returns new vector by applying a rotation transformation of `φ` radians on `v`.
 """
-rotate(v::Vec, φ::Real) = Vec(
+rot(v::Vec, φ::Real) = Vec(
     v.x * cos(φ) - v.y * sin(φ), 
     v.x * sin(φ) + v.y * cos(φ)
 )
