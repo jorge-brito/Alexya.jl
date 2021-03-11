@@ -37,9 +37,10 @@ end
         Button(".") Button(".") Button(".")
         Button(".") → 2 ""      Button(".") ↓ 2
         ""              ""      ""
-    ], @columnhg, @rowhg)
+    ], @columnhg, @rowhg, @spacing(5))
 
     @test grid isa Alexya.GtkGrid
+    @test getprop(grid, :row_spacing, Int) == 5
 
     add!(win, grid)
     showall(win)
