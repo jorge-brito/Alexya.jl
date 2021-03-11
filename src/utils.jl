@@ -106,10 +106,6 @@ function getFPS!(lf::Ref{DateTime})
     return 1000 / Δt
 end
 
-function sizeof(win::GtkWindow)
-    return width(win), height(win)
-end
-
 function resizeWidth!(win::GtkWindow, w::Int)
     h = height(win)
     resize!(win, w, h)
