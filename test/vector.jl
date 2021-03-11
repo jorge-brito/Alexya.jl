@@ -36,7 +36,7 @@ end
     @test rotm2d(π/2) * î == Vec(cos(π/2), 1)
     v = withangle(π)
     @test v == Vec(-1, sin(π))
-    @test rotate(v, -π/2) == Vec(cos(π/2), 1)
+    @test rot(v, -π/2) == Vec(cos(π/2), 1)
     @test normalize(î + ĵ) == (î + ĵ) / abs(î + ĵ)
     @test withmag(î, 2) == Vec(2, 0)
 end

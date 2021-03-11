@@ -1,25 +1,15 @@
-@testset "Canvas Test" begin
-    canvas = Canvas()
-    win = Window(canvas, 800, 600; title = "Canvas test")
-    lf = Ref{DateTime}(now())
+@testset "Canvas test" begin
+    createCanvas(800, 600, title = "Canvas Test")
 
-    @test canvas isa Alexya.GtkCanvas
-
-    function draw(w, h)
-
-        @test w == 800
-        @test h == 600
-
-        fps = getFPS!(lf) |> round
+    function update(w, h)
         background("black")
-        sethue("white")
-        x, y = rand(0:w), rand(0:h)
-        circle(x, y, 10, :fill)
-        fontsize(24)
-        text("Current FPS is $fps frames/s", w/2, 40, halign=:center)
+        origin()
+        sethue(RGB(rand(Float64, 3)...))
+        circle(O, 100, :fill)
+        dontloop!()
     end
 
-    loop!(draw, win, canvas)
+    loop!(update)
 end
 
 @testset "Create canvas" begin
@@ -42,6 +32,7 @@ end
         circle(x, y, 10, :fill)
         fontsize(24)
         text("Current FPS is $fps frames/s", w/2, 40, halign=:center)
+        dontloop!()
     end
 
     loop!(setup, draw)
@@ -68,6 +59,7 @@ mousepos = Point(0, 0)
         circle(mousepos, value(radius), :fill)
         fontsize(24)
         text("Current FPS is $fps frames/s", w/2, 40, halign=:center)
+        dontloop!()
     end
 
     onmousemotion!() do w, event
