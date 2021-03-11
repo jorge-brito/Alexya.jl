@@ -41,6 +41,7 @@ end
 
     @test grid isa Alexya.GtkGrid
     @test getprop(grid, :row_spacing, Int) == 5
+    @test getprop(grid, :column_spacing, Int) == 5
 
     add!(win, grid)
     showall(win)
