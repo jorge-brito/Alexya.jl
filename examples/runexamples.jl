@@ -1,5 +1,4 @@
 include("basic.jl")
 include("drawing.jl")
 include("fractal-tree.jl")
-include("vector-field.jl")
 include("SnakeGame/main.jl")

@@ -3,16 +3,17 @@
 
 using Alexya
 
-@layout aside()
-createCanvas(800, 600) # create a Canvas
+@init "Basic example" 800 600 # create a window and canvas
+@layout aside(:v, 100)
 
 t = 0
 
 # @create macro creates and adds the widget to the window
-velocity = @create Slider(1/10:1/100:1; @hexpand)
+velocity = @create Slider(1/10:1/100:1, @margin(10))
 
-# draw callback is called every frame
-function draw(w, h)
+# update function is called every frame
+@use function update()
+    w, h = @width, @height
     background("#e1e1e1")
     origin()
 
@@ -34,4 +35,4 @@ function draw(w, h)
     end
 end
 
-loop!(draw) # Start the loop
+start()

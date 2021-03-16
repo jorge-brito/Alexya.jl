@@ -8,13 +8,13 @@ module SnakeGame
 
 using Alexya
 
-createCanvas(800, 600, title = "Snake Game")
+@init "Snake Game" 800 600
 
 include("snake.jl")
 include("utils.jl")
 include("draw.jl")
 include("controls.jl")
 
-loop!(setup, draw)
+start()
 
 end

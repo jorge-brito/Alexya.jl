@@ -23,5 +23,5 @@ function draw(::Type{Screen{:GameOver}})
     text("Game Over", Point(0, -20), halign=:center, valign=:center)
     fontsize(22)
     text("Your score: $score", Point(0, 20), halign=:center, valign=:center)
-    dontloop!()
+    noLoop()
 end

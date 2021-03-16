@@ -19,15 +19,15 @@ move(::Val{:down}) = begin
     snake.dir = DOWN
 end
 
-onkeypress!() do w, event
+@use function keypress(event)
     dir = snake.dir
-    if event.keyval == key("w") && dir != DOWN
+    if event.keyval == keyboard("w") && dir != DOWN
         move(Val(:up))
-    elseif event.keyval == key("s") && dir != UP
+    elseif event.keyval == keyboard("s") && dir != UP
         move(Val(:down))
-    elseif event.keyval == key("a") && dir != RIGHT
+    elseif event.keyval == keyboard("a") && dir != RIGHT
         move(Val(:left))
-    elseif event.keyval == key("d") && dir != LEFT
+    elseif event.keyval == keyboard("d") && dir != LEFT
         move(Val(:right))
     elseif event.keyval == 32 || event.keyval == 65307
         global paused = !paused

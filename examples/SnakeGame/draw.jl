@@ -1,6 +1,6 @@
 using Dates
 
-framerate!(10)
+framerate(10)
 
 snake = Snake()
 # The game's resolution
@@ -19,13 +19,15 @@ function createFood()
     global last_eaten = now()
 end
 
-function setup(width, height)
+@use function setup()
+    width, height = @width, @height
     global w = width ÷ rez
     global h = height ÷ rez
     createFood()
 end
 
-function draw(width, height)
+@use function update()
+    width, height = @width, @height
     # If the game is paused
     # draw the paused screen
     if paused
