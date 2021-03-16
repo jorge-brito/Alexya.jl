@@ -44,21 +44,21 @@ function mapr(s::Real, intervals::Matrix{<:Real})
 end
 
 """
-        s --> [a₁ a₂; b₁ b₂]
+        s ⟶ [a₁ a₂; b₁ b₂]
 
 Return the value `s` linearly mapped from the `a` interval to the `b` interval.
 
 # Examples
 
 ```julia
-julia> 1 --> [0 1; 0 10]
+julia> 1 ⟶ [0 1; 0 10]
 10.0
 
-julia> 0.5 --> [0 1; 0 10]
+julia> 0.5 ⟶ [0 1; 0 10]
 5.0
 
-julia> -2 --> [-5 5; 0 5]
+julia> -2 ⟶ [-5 5; 0 5]
 1.5
 ```
 """
--->(s::Real, intervals::Matrix{<:Real}) = mapr(s, intervals)
+⟶(s::Real, intervals::Matrix{<:Real}) = mapr(s, intervals)

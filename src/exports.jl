@@ -104,7 +104,7 @@ export set!,
     random,
     point,
     mapr,
-    -->,
+    ⟶,
     #================= vector.jl =================#
     Vec,
     VECT_LETTER_INDICIES,

@@ -52,7 +52,7 @@ end
 
     for n in 0:10
         @test mapr(n, [0 10; 0 1]) == n / 10
-        @test (n --> [0 10; 0 5]) == mapr(n, [0 10; 0 5])
+        @test (n ⟶ [0 10; 0 5]) == mapr(n, [0 10; 0 5])
     end
 end
 
