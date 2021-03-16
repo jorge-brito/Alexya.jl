@@ -68,4 +68,6 @@ function runexamples()
     include(joinpath(@__DIR__, "..", "examples", "runexamples.jl"))
 end
 
+export runexamples
+
 end
