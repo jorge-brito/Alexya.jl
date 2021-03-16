@@ -87,7 +87,7 @@ Base.parse(cmd::SVGCmd{:H}, points) = begin
     push!(points, Float64[x, y])
 end
 
-Base.parse(::SVGCmd{:Z}, points) = push!(points, points[begin])
+Base.parse(::SVGCmd{:Z}, points) = push!(points, points[1])
 
 Base.parse(cmd::SVGCmd{:C}, points) = begin
     P = [last(points), [cmd.args[i:i+1] for i in 1:2:6]...]
