@@ -6,7 +6,6 @@ using Reexport
 @reexport using Colors, Luxor, LinearAlgebra
 
 import Base: convert, length, getindex, get
-import LinearAlgebra: rotate!
 import Gtk, Luxor.Cairo
 
 import Gtk: GtkScale,
