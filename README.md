@@ -1,5 +1,9 @@
 # Alexya.jl
 
+[![Build Status](https://travis-ci.com/jorge-brito/Alexya.jl.svg?branch=main)](https://travis-ci.com/jorge-brito/Alexya.jl)
+[![Coverage Status](https://coveralls.io/repos/github/jorge-brito/Alexya.jl/badge.svg?branch=main)](https://coveralls.io/github/jorge-brito/Alexya.jl?branch=main)
+[![codecov](https://codecov.io/gh/jorge-brito/Alexya.jl/branch/main/graph/badge.svg?token=BU706PDYBB)](https://codecov.io/gh/jorge-brito/Alexya.jl)
+
 **Alexya** merges [Luxor.jl](https://github.com/JuliaGraphics/Luxor.jl) with [Gtk.jl](https://github.com/JuliaGraphics/Gtk.jl). Use this package to create interactive visualizations with luxor in a Gtk window.
 
 ## Getting Started
