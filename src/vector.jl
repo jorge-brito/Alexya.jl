@@ -73,9 +73,6 @@ but its angle is the sum of `φ` and the angle of `v`.
 """
 rot(v::Vec, φ::Real) = Float64[cos(angle(v) + φ), sin(angle(v) + φ)] * mag(v)
 
-Vect(coords::Real...) = [coords...]
-Vect(; angle::Real, abs::Real = 1) = abs * [cos(angle), sin(angle)]
-
 function limit(v::Vec, max::Real)
     m = mag2(v)
     nv = copy(v)
@@ -96,7 +93,7 @@ randv() = withangle(rand(Float64) * 2π)
 
 Returns a vector of magnitude `abs` and angle `angle`.
 """
-withangle(angle::Real, m::Real = 1) = Vect(; angle, abs = m)
+withangle(angle::Real, m::Real = 1) = m * [cos(angle), sin(angle)]
 """
         withmag(v, m)
 

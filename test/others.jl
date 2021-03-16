@@ -30,7 +30,7 @@
     @test v.w == 0
     @test mag(v) == √(2^2 + 3^2 + (-4)^2)
 
-    u = Vect(angle = π, abs = 2)
+    u = withangle(π, 2)
     @test u == 2 * [cos(π), sin(π)]
     @test angle(u) ≈ π
 
