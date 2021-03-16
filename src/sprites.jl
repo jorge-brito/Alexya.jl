@@ -11,10 +11,10 @@ function SpriteImage(pattern::Cairo.CairoPattern; filter = Cairo.FILTER_NEAREST)
     return SpriteImage(pattern, w, h)
 end
 
-function loadsprite(path::String)
+function loadsprite(path::String, filter = Cairo.FILTER_NEAREST)
     img = readpng(path)
     pattern = Cairo.CairoPattern(img)
-    return SpriteImage(pattern)
+    return SpriteImage(pattern, filter = filter)
 end
 
 function drawsprite(sprite::SpriteImage, 
