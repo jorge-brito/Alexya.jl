@@ -3,7 +3,7 @@ module Alexya
 using Reexport
 
 
-@reexport using Colors, Luxor, LinearAlgebra
+@reexport using Colors, Luxor
 
 import Base: convert, length, getindex, get
 import Gtk, Luxor.Cairo

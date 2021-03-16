@@ -42,13 +42,13 @@ extend!(v::Vec, d = 1) = push!(v, [0 for i in 0:d]...)
 
 Returns the `magnitude` of `v`.
 """
-mag(v::Vec) = norm(v)
+mag(v::Vec) = sqrt(sum(v .^ 2))
 """
         mag2(v::Vector{<:Real})
 
 Returns the `magnitude` squared of `v`.
 """
-mag2(v::Vec) = norm(v, 1)
+mag2(v::Vec) = sum(v .^ 2)
 """
         mag²(v::Vector{<:Real})
 
