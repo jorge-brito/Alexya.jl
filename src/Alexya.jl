@@ -2,61 +2,67 @@ module Alexya
 
 using Reexport
 
-import Gtk
 
-import Gtk: 
-    GtkWidget,
-    GtkContainer,
-    GtkWindow, 
-    resize!,
-    GdkRGBA,
-    GtkBox,
-    GtkPaned,
-    GtkCanvas,
-    @guarded,
-    draw,
-    width,
-    height,
-    size,
-    waitforsignal,
-    getgc,
-    destroy,
-    GtkFrame,
-    GtkGrid,
+@reexport using Colors, Luxor, LinearAlgebra
+
+import Base: convert, length, getindex, get
+import LinearAlgebra: rotate!
+import Gtk, Luxor.Cairo
+
+import Gtk: GtkScale,
     GtkButton,
-    GtkColorButton,
-    GtkSwitch,
-    GtkScale,
-    GtkEntry,
-    GtkComboBoxText,
     GtkLabel,
+    GtkEntry,
+    GtkSpinButton,
+    GtkSpinner,
+    GtkTextView,
+    GtkStatusbar,
+    GtkSwitch,
+    GtkLinkButton,
+    GtkFontButton,
+    GtkAppChooser,
+    GtkColorButton,
+    GtkProgressBar,
+    GtkFileChooser,
+    GtkCheckButton,
+    GtkToggleButton,
+    GtkComboBoxText,
+    GtkVolumeButton,
+    GtkCanvas,
+    GtkBox,
+    GtkFrame,
+    GtkPaned,
+    GtkWindow,
+    GtkMenuBar,
+    GtkToolbar,
+    GtkTreeView,
+    GtkNotebook,
+    GtkScrolledWindow,
+    GtkWidget,
+    GdkRGBA,
+    GtkAlign,
     set_gtk_property!,
-    push!,
     get_gtk_property,
     signal_connect,
     signal_handler_disconnect,
-    signal_handler_is_connected,
-    GAccessor,
-    show,
-    showall,
-    GtkAlign,
     bytestring,
-    GConstants
+    show, showall,
+    destroy,
+    GAccessor,
+    width, height
 
-@reexport using Colors, Luxor, Dates
-
-import Base: abs, +, -, *, /, ==, >, <, <=, >=, convert, length, getindex
-
+include("exports.jl")
 include("utils.jl")
 include("vector.jl")
+include("math.jl")
 include("gtk.jl")
-include("helpers.jl")
-include("layout.jl")
-include("canvas.jl")
+include("widgets.jl")
+include("grid.jl")
 include("events.jl")
-include("exports.jl")
-
-export runexamples, waitforsignal
+include("app.jl")
+include("layout.jl")
+include("svg.jl")
+include("sprites.jl")
 
 function runexamples()
     include(joinpath(@__DIR__, "..", "examples", "runexamples.jl"))

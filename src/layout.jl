@@ -1,78 +1,58 @@
-function nolayout(width::Int, height::Int, title::String, canvas::GtkCanvas)
-    return Window(width, height; title) do 
-        canvas
-    end,
-    function(child::T) where T <: GtkWidget
+function canvasonly(canvas::GtkCanvas, widgets::GtkWidget...)
+
+    for widget in widgets
         @warn """
-        
-        Attempt to add widget of type $T but no layout is being used.
-        If you want to use other widgets with the canvas call the `uselayout!` 
-        function (or the @layout macro) and pass a layout. Example:
-
-                `@layout aside(type = :horizontal)`
-            
-        You can also implement your own layouts.
-
+        Attempt to add widget of type '$(typeof(widget))', but the current layout 
+        is 'canvasonly'. If you want to add other widgets aside from just the 
+        canvas, call the `uselayout` function or the `@layout` macro.
         """
     end
+
+    return canvas
 end
 
-function aside(::Val{:vertical}, size::Int, reverse::Bool)
-    return function(width::Int, height::Int, title::String, canvas::GtkCanvas)
-        box = Box(:v; @margin(20, 10))
-        Window(width + size, height; title) do 
-            Paned(:h; position = width) do 
-                if reverse
-                    return box, canvas
-                else
-                    return canvas, box
-                end
-            end # Paned
-        end, # Window
-        (child) -> add!(box, child)
+function aside(::Val{:h}, slength::Int)
+    return function(canvas::GtkCanvas, widgets::GtkWidget...)
+        window = @window()
+        w, h = Gtk.size(window)
+
+        container = Paned(:v, position = h) do 
+            canvas,
+            Box(() -> widgets, :h)
+        end
+        # Here we resize the window, so the Canvas can have
+        # the same dimensions as specified by the user, because
+        # otherwise, Gtk will resize the Canvas to fit inside the window
+        Gtk.resize!(window, w, h + slength)
+        return container
     end
 end
 
-aside(::Val{:v}, args...) = aside(Val(:vertical), args...)
+function aside(::Val{:v}, slength::Int)
+    return function(canvas::GtkCanvas, widgets::GtkWidget...)
+        window = @window()
+        w, h = Gtk.size(window)
 
-function aside(::Val{:horizontal}, size::Int, reverse::Bool)
-    return function(width::Int, height::Int, title::String, canvas::GtkCanvas)
-        box = Box(:h; @margin(20, 10))
-        Window(width, height + size; title) do 
-            Paned(:v; position = height) do 
-                if reverse
-                    return box, canvas
-                else
-                    return canvas, box
-                end
-            end # Paned
-        end, # Window
-        (child) -> add!(box, child)
+        container = Paned(:h, position = w) do 
+            canvas,
+            Box(() -> widgets, :v)
+        end
+        # Here we resize the window, so the Canvas can have
+        # the same dimensions as specified by the user, because
+        # otherwise, Gtk will resize the Canvas to fit inside the window
+        Gtk.resize!(window, w + slength, h)
+        return container
     end
 end
 
-aside(::Val{:h}, args...) = aside(Val(:horizontal), args...)
+aside(type::Symbol, slength::Int) = aside(Val(type), slength)
 
-function aside(size::Int = 130, type::Symbol = :vertical, reverse::Bool = false)
-    aside(Val(type), size, reverse)
+function uselayout(layout::Function)
+    app = current_app()
+    app.layout = layout
+    nothing
 end
 
-const CURRENT_LAYOUT = Function[nolayout]
-
-function uselayout!(layout::Function)
-    CURRENT_LAYOUT[1] = layout
-end
-
-function create(w::T) where T <: GtkWidget
-    app = get_current_app()
-    app.add(w)
-    return w
-end
-
-macro create(ex)
-    :( create($(esc(ex))) )
-end
-
-macro layout(layout)
-    :( uselayout!($(esc(layout))) )
+macro layout(ex)
+    :( uselayout($(esc(ex))) )
 end
