@@ -1,70 +1,119 @@
-@testset "Canvas test" begin
-    createCanvas(800, 600, title = "Canvas Test")
+xoff = 0
+yoff = 1000
 
-    function update(w, h)
-        background("black")
-        origin()
-        sethue(RGB(rand(Float64, 3)...))
-        circle(O, 100, :fill)
-        dontloop!()
+@testset "Simple Canvas" begin
+    init("Simple Canvas Test", 800, 600)
+
+    @use function setup()
+        @test 800 == @width()
+        @test 600 == @height()
+
+        @test (@window) isa GtkWindow
+        @test (@canvas) isa GtkCanvas
     end
+    
+    @use function update()
+        w, h = @width, @height
 
-    loop!(update)
-end
-
-@testset "Create canvas" begin
-    createCanvas(800, 600; title = "Create canvas")
-    lf = Ref{DateTime}(now())
-
-    radius = @create Slider(1:200; startat = 20)
-
-    function setup(w, h)
-        @test w == 800
-        @test h == 600
-        println("Creating canvas with width of $w and height of $h")
-    end
-
-    function draw(w, h)
-        fps = getFPS!(lf) |> round
         background("black")
         sethue("white")
-        x, y = rand(0:w), rand(0:h)
-        circle(x, y, 10, :fill)
-        fontsize(24)
-        text("Current FPS is $fps frames/s", w/2, 40, halign=:center)
-        dontloop!()
+        x = noise(xoff) * w
+        y = noise(yoff) * h
+        circle(x, y, 16, :fill)
+
+        fontsize(18)
+        text("Framerate: $(@framerate) frames/s", Point(w/2, 20), halign = :center)
+        text("Framecount: $(@framecount)", Point(w/2, 40), halign = :center)
+
+        global xoff += 0.03
+        global yoff += 0.03
     end
 
-    loop!(setup, draw)
+    start(async = true)
+    destroy(@window)
 end
 
-mousepos = Point(0, 0)
+@testset "Layout & Events" begin
+    init("Layout Test", 800, 600)
+    @layout aside(:v, 200)
 
-@testset "Canvas with controls & events" begin
-    @layout aside()
-    createCanvas(800, 600; title = "Canvas with controls & events")
+    slider = @create Slider(1:100, @margin(10), @align(:center, :fill))
+    entry = @create Entry(text = "Hello world", @margin(10))
+    mousepos = Ref{Point}(O)
 
-    lf = Ref{DateTime}(now())
-    radius = @create Slider(1:200; startat = 20)
+    onevent(() -> framerate(value(slider)), :value_changed, slider)
 
-    function setup(w, h)
-        println("Creating canvas with width of $w and height of $h")
-        global mousepos = Point(w/2, h/2)
+    @use function setup()
+        @test 800 == @width()
+        @test 600 == @height()
+
+        @test (@window) isa GtkWindow
+        @test (@canvas) isa GtkCanvas
     end
 
-    function draw(w, h)
-        fps = getFPS!(lf) |> round
+    @use function appclosed()
+        # @test true == !false
+        @info "App closed"
+    end
+
+    @use function mousemove(event)
+        @info "Mouse move event" pos=event.pos
+        mousepos[] = event.pos
+    end
+
+    @use function mousepress(event)
+        @info "Mouse press event" pos=event.pos
+    end
+
+    @use function mouserelease(event)
+        @info "Mouse release event" pos=event.pos
+    end
+
+    @use function mousemotion(event)
+        @info "Mouse motion event" pos=event.pos
+    end
+
+    @use function keypress(event)
+        @info "Key press event" key=event.keyval
+    end
+    
+    @use function update()
+        w, h = @width, @height
         background("black")
         sethue("white")
-        circle(mousepos, value(radius), :fill)
-        fontsize(24)
-        text("Current FPS is $fps frames/s", w/2, 40, halign=:center)
-        dontloop!()
+        x = noise(xoff) * w
+        y = noise(yoff) * h
+        circle(x, y, 16, :fill)
+        
+        sethue("#f1a")
+        circle(mousepos[], 16, :fill)
+
+        global xoff += 1 / value(slider)
+        global yoff += 1 / value(slider)
+        noLoop()
     end
 
-    onmousemotion!() do w, event
-        global mousepos = Point(event.x, event.y)
+    start()
+    destroy(@window)
+end
+
+@testset "Sprites" begin
+    @init "Sprite test" 800 600
+
+    sprite = loadsprite(joinpath(@__DIR__, "sprite.png"))
+    
+    @use function setup()
+        @info "Sprite loaded" sprite=sprite
+        @test sprite isa SpriteImage
     end
 
-    loop!(setup, draw)
+    @use function update()
+        background("black")
+        w, h = @width, @height
+        drawsprite(sprite, Point(w/2, h/2), 400:400, centered = true)
+        noLoop()
+    end
+
+    start()
+    destroy(@window)
 end

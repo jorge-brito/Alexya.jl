@@ -1,8 +1,6 @@
 using Test, Alexya
 
-include("gtk.jl")
+include("widgets.jl")
 include("canvas.jl")
-include("utils.jl")
-include("vector.jl")
-
-# TODO: Write more tests
+include("grid.jl")
+include("others.jl")
