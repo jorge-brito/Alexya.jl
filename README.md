@@ -25,37 +25,39 @@ First, load the package:
 using Alexya
 ```
 
-Then, create a canvas with the `width` and `height` of your choose:
+Then, we initialize `Alexya` calling the `init` function: 
 
 ```julia
-createCanvas(800, 600)
+init("My application", 800, 600)
 ```
 
-You can also pass a keyword argument `title` for the title of the window.
+Or the `@init` macro:
 
 ```julia
-createCanvas(800, 600; title = "My canvas")
+@init "My application" 800 600
 ```
 
-Then, define your `setup` and `draw` (or `update`) functions:
+The `init` function and the `@init` macro accepts 3 arguments: the `title` of the window and the `width` and `height` of the canvas, respectively. You can omit the `width` and `height`, the default value for each is `400`.
+
+Then, define your `setup` and `update` functions:
 
 ```julia
-function setup(width, height)
-    # This function is called when the window
-    # is created
+@use function setup()
+    # This function is called when
+    # the app is starting
     println("Starting...")
 end
 
-function draw(width, height)
+@use function update()
     # this function is called every frame
     # draw something here using Luxor's functions
 end
 ```
 
-Then, start the loop using those functions:
+Then, start the application by calling:
 
 ```julia
-loop!(setup, draw)
+start()
 ```
 If you want to know how to draw things on the screen, check out
 the **Luxor.jl** documentation [here](https://juliahub.com/docs/Luxor/HA9ps/2.7.0/tutorial/).
@@ -68,18 +70,18 @@ the **Luxor.jl** documentation [here](https://juliahub.com/docs/Luxor/HA9ps/2.7.
 
 using Alexya
 
-@layout aside()
 
-createCanvas(800, 600) # create a Canvas
+@init "Fractal Tree" 800 600 # create a Canvas
+@layout aside(:v, 200)
 
-slider = @create Slider(0:π/12:2π; startat=π/4)
+slider = @create Slider(0:π/12:2π; init=π/4, @margin(20))
 φ = π/4
 
-function draw(w, h)
+@use function update()
     global φ = value(slider)
 
     background("#515151")
-    origin(w/2, h)
+    origin((@width)/2, @height)
     sethue("white")
     branch(150)
 end
@@ -101,7 +103,7 @@ function branch(len)
     end
 end
 
-loop!(draw)
+start()
 ```
 
 Outputs:
