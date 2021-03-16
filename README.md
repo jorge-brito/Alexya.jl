@@ -112,17 +112,14 @@ Outputs:
 
 ## More Examples
 
+### Basic Example
 ### Simple drawing program
 
 ![Simple Drawing program Example](preview/example1.gif)
 
-### Vector field visualization
-
-![Vector Field Example](preview/example3.gif)
-
 ### The Snake Game
 
-![Snake Game Example](preview/example4.gif)
+![Snake Game Example](preview/example3.gif)
 
 See the [examples](/examples) folder to view the code of each example.
 
