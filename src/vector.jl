@@ -82,6 +82,8 @@ function limit(v::Vec, max::Real)
     return nv
 end
 
+unitv(v::Vec) = v / abs(v)
+
 """
         randv()
 
@@ -99,4 +101,4 @@ withangle(angle::Real, m::Real = 1) = m * [cos(angle), sin(angle)]
 
 Returns a vector with the same direction as `v`, but with magnitude `m`.
 """
-withmag(v::Vec, m::Real) = m * normalize(v)
+withmag(v::Vec, m::Real) = m * unitv(v)
