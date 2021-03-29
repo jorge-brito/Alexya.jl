@@ -1,5 +1,6 @@
 # Alexya.jl
 
+[![CI](https://github.com/jorge-brito/Alexya.jl/workflows/CI/badge.svg)](https://github.com/jorge-brito/Alexya.jl/actions?query=workflow%3ACI)
 [![version](https://juliahub.com/docs/Alexya/version.svg)](https://juliahub.com/ui/Packages/Alexya/E6dwB)
 [![Coverage Status](https://coveralls.io/repos/github/jorge-brito/Alexya.jl/badge.svg?branch=main)](https://coveralls.io/github/jorge-brito/Alexya.jl?branch=main)
 [![codecov](https://codecov.io/gh/jorge-brito/Alexya.jl/branch/main/graph/badge.svg?token=BU706PDYBB)](https://codecov.io/gh/jorge-brito/Alexya.jl)
