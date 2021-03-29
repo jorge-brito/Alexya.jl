@@ -114,11 +114,12 @@ function Controls(options::NamedTuple)
         @spacing(20)
     )
 
-    return Controls(NamedTuple(controls), grid);
+    return Controls((; zip(first.(controls), last.(controls))...), grid);
 end
 
 function Controls(; options...)
-    return Controls(NamedTuple(collect(pairs(options))))
+    keys = collect(pairs(options))
+    return Controls((; zip(first.(keys), last.(keys))...))
 end
 
 function Base.string(controls::Controls)
