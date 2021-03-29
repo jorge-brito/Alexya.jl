@@ -89,3 +89,4 @@ end
 @container_widget GtkTreeView --> TreeView
 @container_widget GtkNotebook --> Notebook
 @container_widget GtkScrolledWindow --> ScrolledWindow
+@container_widget GtkExpander --> Expander
