@@ -150,6 +150,10 @@ function onevent(callback::Function, event::SString, widget::GtkWidget)
     end
 end
 
+function onevent(callback::Function, event::SString, widgets::Vector{<:GtkWidget})
+    return [onevent(callback, event, widget) for widget in widgets] 
+end
+
 function set!(widget::GtkWidget, event::SString, callback::Function)
     if startswith(string(event), "on")
         onevent(callback, String(string(event)[3:end]), widget)
@@ -213,9 +217,9 @@ function value(slider::Union{GtkScale, GtkSpinButton})
     return GAccessor.value(GAccessor.adjustment(slider))
 end
 
-function setvalue!(slider::GtkScale, value::Real)
+function setvalue!(slider::Union{GtkScale, GtkSpinButton}, value::Real)
     adj = GAccessor.adjustment(slider)
-    set!(adj, :value, value)
+    set_gtk_property!(adj, :value, value)
 end
 
 function value(w::Union{Gtk.GtkSwitch, GtkToggleButton, GtkCheckButton})
@@ -232,4 +236,8 @@ end
 
 function value(cbtn::GtkColorButton)
     return convert(RGBA, getprop(cbtn, :rgba, Gtk.GdkRGBA))
+end
+
+function setvalue!(cbtn::GtkColorButton, color::Colorant)
+    set!(cbtn, rgba = convert(GdkRGBA, color))
 end
