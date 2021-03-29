@@ -123,7 +123,11 @@ function setevent(event::Event{:update})
             app.framecount += 1
             try
                 gsave()
-                event.callback()
+                if applicable(event.callback, Δt)
+                    event.callback(Δt)
+                else
+                    event.callback()
+                end
                 grestore()
                 finish()
             catch e
