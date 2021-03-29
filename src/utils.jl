@@ -72,6 +72,14 @@ function align(value::Symbol)
     return getfield(GtkAlign, galign)
 end
 
+macro valign(ex)
+    Expr(:kw, :valign, :( align($(esc(ex))) ))
+end
+
+macro halign(ex)
+    Expr(:kw, :halign, :( align($(esc(ex))) ))
+end
+
 """
         @align v h
 
