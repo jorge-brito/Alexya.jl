@@ -118,7 +118,7 @@ function Controls(options::NamedTuple)
 end
 
 function Controls(; options...)
-    return Controls(NamedTuple(options))
+    return Controls(NamedTuple(pairs(options)))
 end
 
 function Base.string(controls::Controls)
