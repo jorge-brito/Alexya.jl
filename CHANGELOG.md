@@ -1,5 +1,17 @@
 # Changelog
 
+## [v2.1.0] - 2021-03-29
+
+New features:
+
+- Controls and Options
+
+Changes:
+
+- deltaTime: now the `update` function can accept a optionally parameter `dt` that represents the time difference between two consecutive frames.
+
+- `onevent` for multiple widgets: now its possible to set the same event callback for multiple widgets with just one call to the `onevent` function.
+
 ## [v2.0.0] - 2021-03-16
 
 Mos of the interface was recreated, but remains almost the same. The most significant differences are the following:
