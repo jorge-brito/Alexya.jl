@@ -53,6 +53,7 @@ function addwidget(widget::GtkWidget)
     return widget
 end
 
+
 """
         init(title [, width = 400, height = 400])
 
@@ -134,8 +135,8 @@ function start(; async::Bool = false)
     canvas = app.canvas
 
     add!(window, layout(canvas, widgets...))
-    setevent.([Event(T, callback) for (T, callback) in app.events])
     showall(window)
+    setevent.([Event(T, callback) for (T, callback) in app.events])
 
     if async
         @async while app.loop == true
