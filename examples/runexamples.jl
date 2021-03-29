@@ -1,4 +1,5 @@
 include("basic.jl")
+include("graphing.jl")
 include("drawing.jl")
 include("fractal-tree.jl")
 include("SnakeGame/main.jl")
