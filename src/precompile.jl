@@ -15,10 +15,10 @@ end
 
 function _precompile_()
     ccall(:jl_generating_output, Cint, ()) == 1 || return nothing
-    isdefined(Alexya, Symbol("##Scale#11")) && precompile(Tuple{Alexya.var"##Scale#11", Base.Pairs{Symbol, Any, Tuple{Symbol, Symbol}, NamedTuple{(:margin, :align), Tuple{NamedTuple{(:top, :left, :right, :bottom), Tuple{Int64, Int64, Int64, Int64}}, Array{Base.Pair{A, B} where B where A, 1}}}}, typeof(Alexya.Scale), Bool, Vararg{Any}})
-    isdefined(Alexya, Symbol("##Scale#11")) && precompile(Tuple{Alexya.var"##Scale#11", Base.Pairs{Symbol, Bool, Tuple{Symbol}, NamedTuple{(:hexpand,), Tuple{Bool}}}, typeof(Alexya.Scale), Bool, Vararg{Any}})
-    isdefined(Alexya, Symbol("##Scale#11")) && precompile(Tuple{Alexya.var"##Scale#11", Base.Pairs{Symbol, Integer, Tuple{Symbol, Symbol}, NamedTuple{(:margin_bottom, :hexpand), Tuple{Int64, Bool}}}, typeof(Alexya.Scale), Bool, Vararg{Any}})
-    isdefined(Alexya, Symbol("##Scale#11")) && precompile(Tuple{Alexya.var"##Scale#11", Base.Pairs{Symbol, Union{}, Tuple{}, NamedTuple{(), Tuple{}}}, typeof(Alexya.Scale), Bool, Vararg{Any}})
+    isdefined(Alexya, Symbol("##Scale#11")) && precompile(Tuple{Alexya.var"##Scale#11", Iterators.Pairs{Symbol, Any, Tuple{Symbol, Symbol}, NamedTuple{(:margin, :align), Tuple{NamedTuple{(:top, :left, :right, :bottom), Tuple{Int64, Int64, Int64, Int64}}, Array{Base.Pair{A, B} where B where A, 1}}}}, typeof(Alexya.Scale), Bool, Vararg{Any}})
+    isdefined(Alexya, Symbol("##Scale#11")) && precompile(Tuple{Alexya.var"##Scale#11", Iterators.Pairs{Symbol, Bool, Tuple{Symbol}, NamedTuple{(:hexpand,), Tuple{Bool}}}, typeof(Alexya.Scale), Bool, Vararg{Any}})
+    isdefined(Alexya, Symbol("##Scale#11")) && precompile(Tuple{Alexya.var"##Scale#11", Iterators.Pairs{Symbol, Integer, Tuple{Symbol, Symbol}, NamedTuple{(:margin_bottom, :hexpand), Tuple{Int64, Bool}}}, typeof(Alexya.Scale), Bool, Vararg{Any}})
+    isdefined(Alexya, Symbol("##Scale#11")) && precompile(Tuple{Alexya.var"##Scale#11", Iterators.Pairs{Symbol, Union{}, Tuple{}, NamedTuple{(), Tuple{}}}, typeof(Alexya.Scale), Bool, Vararg{Any}})
     isdefined(Alexya, Symbol("#@align")) && precompile(Tuple{Alexya.var"#@align", LineNumberNode, Module, Int, Int})
     isdefined(Alexya, Symbol("#@button_str")) && precompile(Tuple{Alexya.var"#@button_str", LineNumberNode, Module, Int})
     isdefined(Alexya, Symbol("#@canvas")) && precompile(Tuple{Alexya.var"#@canvas", LineNumberNode, Module})

@@ -38,5 +38,5 @@ function drawsprite(sprite::SpriteImage,
 end
 
 function drawsprite(sprite::SpriteImage, pos::Point, size::UnitRange; centered = false)
-    drawsprite(sprite, pos.x, pos.y, size.start, size.stop; centered)
+    drawsprite(sprite, pos.x, pos.y, size.start, size.stop, centered = centered)
 end
