@@ -8,6 +8,8 @@ mutable struct GridCell
     GridCell(::Tuple) = new(missing, 1, 1)
 end
 
+Base.convert(::Type{GridCell}, x::T) where T = GridCell(x)
+
 """
         span(widget, r, c)
 
@@ -133,6 +135,6 @@ function Grid(rows::Matrix{GridCell}; props...)
     return grid
 end
 
-Grid(rows::Matrix; props...) = Grid(GridCell.(rows)::Matrix{GridCell}; props...)
+Grid(rows::Matrix{T}; props...) where {T} = Grid(GridCell.(rows); props...)
 
 Grid(rows::Function; props...) = Grid(rows(); props...)
