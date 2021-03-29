@@ -25,7 +25,12 @@ others = (
     switch = true
 )
 
-options = Controls(; widgets, inputs, numbers, others)
+options = Controls(
+    widgets = widgets,
+    inputs = inputs,
+    numbers = numbers,
+    others = others
+)
 
 onevent(:clicked, options.widgets.inspect) do 
     @show options
