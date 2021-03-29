@@ -216,7 +216,6 @@ Base.length(self::SectionOption) = length(getfield(self, :value)._options)
 Base.size(self::SectionOption) = length(self)
 Base.pairs(self::SectionOption) = pairs(getfield(self, :value)._options)
 
-
 const InputOption = Option{AbstractString}
 
 function create_option(v::AbstractString, name::Maybe{Symbol})::InputOption
@@ -232,7 +231,7 @@ function create_option(v::AbstractString, name::Maybe{Symbol})::InputOption
 
         self.set = (text) -> begin 
             self.value = text 
-            set!(self.widget; text)
+            set!(self.widget, text = text)
         end
     end
 end
@@ -256,7 +255,7 @@ end
 function create_option((init, range)::Tuple{<:Real, AbstractRange}, name::Maybe{Symbol})::NumberOption
     return NumberOption() do self::NumberOption
         self.type = :number
-        self.widget = SpinButton(range; init, @halign(:start))
+        self.widget = SpinButton(range; init = init, @halign(:start))
         self.label = name
         self.value = value(self.widget)
         onevent(:value_changed, self.widget) do 
@@ -297,7 +296,7 @@ end
 function create_option((range, init)::Tuple{AbstractRange, <:Real}, name::Maybe{Symbol})
     return NumberOption() do self
         self.type = :range
-        self.widget = Slider(range; init, margin_bottom = 16, @hexpand)
+        self.widget = Slider(range; init=init, margin_bottom = 16, @hexpand)
         self.label = name
         self.value = value(self.widget)
         onevent(:value_changed, self.widget) do 
