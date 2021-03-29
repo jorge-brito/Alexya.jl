@@ -2,7 +2,6 @@ module Alexya
 
 using Reexport
 
-
 @reexport using Colors, Luxor
 
 import Base: convert, length, getindex, get
@@ -13,6 +12,7 @@ import Gtk: GtkScale,
     GtkLabel,
     GtkEntry,
     GtkSpinButton,
+    GtkExpander,
     GtkSpinner,
     GtkTextView,
     GtkStatusbar,
@@ -29,6 +29,7 @@ import Gtk: GtkScale,
     GtkVolumeButton,
     GtkCanvas,
     GtkBox,
+    GtkGrid,
     GtkFrame,
     GtkPaned,
     GtkWindow,
@@ -37,8 +38,10 @@ import Gtk: GtkScale,
     GtkTreeView,
     GtkNotebook,
     GtkScrolledWindow,
+    CssProvider,
     GtkWidget,
     GdkRGBA,
+    GConstants,
     GtkAlign,
     set_gtk_property!,
     get_gtk_property,
@@ -62,11 +65,17 @@ include("app.jl")
 include("layout.jl")
 include("svg.jl")
 include("sprites.jl")
+include("controls.jl")
 
 function runexamples()
     include(joinpath(@__DIR__, "..", "examples", "runexamples.jl"))
 end
 
-export runexamples
+export runexamples, GtkAlign
+
+if VERSION >= v"1.1"   # work around https://github.com/JuliaLang/julia/issues/34121
+    include("precompile.jl")
+    _precompile_()
+end
 
 end
